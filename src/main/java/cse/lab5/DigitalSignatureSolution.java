@@ -1,3 +1,5 @@
+package cse.lab5;
+
 import java.util.Base64;
 import javax.crypto.Cipher;
 import java.io.BufferedReader;

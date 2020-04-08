@@ -1,4 +1,5 @@
-import java.lang.Object;
+package cse.lab5;
+
 import javax.imageio.ImageIO;
 import java.io.*;
 import java.awt.image.BufferedImage;
