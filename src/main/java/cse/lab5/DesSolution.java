@@ -11,9 +11,10 @@ import java.util.Base64;
 
 public class DesSolution
 {
-    private static final String ALGORITHM = "DES";
-    private static final String CONFIG = "/ECB/PKCS5Padding";
-    private static final String RESOURCES_LOCATION = "src/main/resources";
+    public static final String RESOURCES_LOCATION = "src/main/resources";
+    public static final String ALGORITHM = "DES";
+    public static final String ECB_CONFIG = "ECB/PKCS5Padding";
+    public static final String CBC_CONFIG = "CBC/PKCS5Padding";
     
     public static void main(String[] args)
         throws IOException
@@ -142,7 +143,7 @@ public class DesSolution
     // encrypt bytes using given key
     public static byte[] encryptBytes(byte[] bytes, SecretKey key)
     {
-        Cipher cipher = getCipher();
+        Cipher cipher = getECBCipher();
         
         initializeCipher(cipher, key, Cipher.ENCRYPT_MODE);
         
@@ -152,7 +153,7 @@ public class DesSolution
     // decrypt bytes using given key
     public static byte[] decryptBytes(byte[] bytes, SecretKey key)
     {
-        Cipher cipher = getCipher();
+        Cipher cipher = getECBCipher();
         
         initializeCipher(cipher, key, Cipher.DECRYPT_MODE);
         
@@ -173,11 +174,29 @@ public class DesSolution
         }
     }
     
-    // create cipher object
-    public static Cipher getCipher()
+    // create cipher object with ECB configuration
+    public static Cipher getECBCipher()
     {
         try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM + CONFIG);
+            Cipher cipher = Cipher.getInstance(ALGORITHM + "/" + ECB_CONFIG);
+            
+            return cipher;
+        }
+        
+        catch (NoSuchAlgorithmException exception) {
+            throw new IllegalArgumentException("algorithm invalid");
+        }
+        
+        catch (NoSuchPaddingException exception) {
+            throw new IllegalArgumentException("padding invalid");
+        }
+    }
+    
+    // create cipher object with CBC configuration
+    public static Cipher getCBCCipher()
+    {
+        try {
+            Cipher cipher = Cipher.getInstance(ALGORITHM + "/" + CBC_CONFIG);
             
             return cipher;
         }
