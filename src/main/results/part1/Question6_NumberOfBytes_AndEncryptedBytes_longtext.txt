@@ -1,0 +1,3 @@
+longtext.txt text length: 17353
+longtext.txt number of bytes: 17353
+longtext.txt number of encrypted bytes: 17360
