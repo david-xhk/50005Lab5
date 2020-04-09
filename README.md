@@ -9,7 +9,7 @@
 *Try to print to your screen the content of the input files, i.e., the plaintexts, using*
 
 ```java
-System.out.println(inputText);
+System.out.println(text);
 ```
 
 *What do you see? Are the files printable?*
@@ -305,6 +305,7 @@ public static void main(String[] args)
 *What is the reason for such observation? Can you explain and try on what would be the result if data were taken from bottom to top along the columns of the image?*
 
 *Can you try your new approach on​ comment on observation?*
+
 
 
 
