@@ -153,28 +153,6 @@ public class DesSolution extends AbstractCryptoSolution
         return encryptBytes(textBytes, algorithm, config, key);
     }
     
-    // get, encrypt, and then decrypt the content of the input file
-    public static byte[] getText_FromInputFile_AndEncrypt_ThenDecrypt(
-        String fileLocation, String fileName,
-        String algorithm, String config)
-    {
-        String text = getText_FromInputFile(fileLocation, fileName);
-        
-        byte[] textBytes = text.getBytes();
-            
-        SecretKey key = generateKey(algorithm);
-        
-        byte[] encryptedBytes = encryptBytes(textBytes, algorithm, config, key);
-        
-        return decryptBytes(encryptedBytes, algorithm, config, key);
-    }
-    
-    // convert the encrypted byte[] format into a Base64-format String
-    public static String bytesToBase64String(byte[] bytes)
-    {
-        return Base64.getEncoder().encodeToString(bytes);
-    }
-    
     public static String getText_FromInputFile(String fileLocation, String fileName)
     {
         String filePath = fileLocation + "/" + fileName;
@@ -194,6 +172,22 @@ public class DesSolution extends AbstractCryptoSolution
         }
     }
     
+    // get, encrypt, and then decrypt the content of the input file
+    public static byte[] getText_FromInputFile_AndEncrypt_ThenDecrypt(
+        String fileLocation, String fileName,
+        String algorithm, String config)
+    {
+        String text = getText_FromInputFile(fileLocation, fileName);
+        
+        byte[] textBytes = text.getBytes();
+            
+        SecretKey key = generateKey(algorithm);
+        
+        byte[] encryptedBytes = encryptBytes(textBytes, algorithm, config, key);
+        
+        return decryptBytes(encryptedBytes, algorithm, config, key);
+    }
+    
     public static void printTextToScreen_AndWriteToOutputFile(String text,
         String fileLocation, String fileName)
     {
@@ -208,5 +202,11 @@ public class DesSolution extends AbstractCryptoSolution
         catch (IOException exception) {
             throw new IllegalStateException("I/O exception occured: " + exception.getMessage());
         }
+    }
+    
+    // convert the encrypted byte[] format into a Base64-format String
+    public static String bytesToBase64String(byte[] bytes)
+    {
+        return Base64.getEncoder().encodeToString(bytes);
     }
 }
