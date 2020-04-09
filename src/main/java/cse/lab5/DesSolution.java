@@ -3,23 +3,19 @@ package cse.lab5;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 import java.util.Base64;
 
 
-public class DesSolution
+public class DesSolution extends AbstractDesSolution
 {
+    public static final String[] FILE_NAMES = {"shorttext.txt", "longtext.txt"};
     public static final String RESOURCES_LOCATION = "src/main/resources";
-    public static final String ALGORITHM = "DES";
-    public static final String ECB_CONFIG = "ECB/PKCS5Padding";
-    public static final String CBC_CONFIG = "CBC/PKCS5Padding";
     
     public static void main(String[] args)
         throws IOException
     {
-        //question1_PrintContent_OfInputFile_ToScreen();
+        question1_PrintContent_OfInputFile_ToScreen();
         //question2_EncryptContent_OfInputFile_AndPrintCipherBytes_ToScreen();
         //question3_EncryptContent_OfInputFile_ThenBase64Encode_AndPrintCipherBytes_ToScreen();
         //question5_EncryptContent_OfInputFile_ThenDecrypt_AndPrintCipherBytes_ToScreen();
@@ -30,10 +26,9 @@ public class DesSolution
     public static void question1_PrintContent_OfInputFile_ToScreen()
         throws IOException
     {
-        String fileName = "shorttext.txt";
-        //String fileName = "longtext.txt";
+        String fileName = FILE_NAMES[0];
         
-        String content = getContent_OfInputFile(fileName);
+        String content = (String) getContent_OfInputFile(fileName);
         
         System.out.println("Original content: ");
         System.out.println(content);
@@ -43,10 +38,9 @@ public class DesSolution
     public static void question2_EncryptContent_OfInputFile_AndPrintCipherBytes_ToScreen()
         throws IOException
     {
-        String fileName = "shorttext.txt";
-        //String fileName = "longtext.txt";
+        String fileName = FILE_NAMES[0];
         
-        byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName);
+        byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName, ECB_CONFIG);
         
         System.out.println(new String(cipherBytes));
     }
@@ -55,10 +49,9 @@ public class DesSolution
     public static void question3_EncryptContent_OfInputFile_ThenBase64Encode_AndPrintCipherBytes_ToScreen()
         throws IOException
     {
-        String fileName = "shorttext.txt";
-        //String fileName = "longtext.txt";
+        String fileName = FILE_NAMES[0];
         
-        byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName);
+        byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName, ECB_CONFIG);
         
         System.out.println(bytesToBase64String(cipherBytes));
     }
@@ -67,10 +60,9 @@ public class DesSolution
     public static void question5_EncryptContent_OfInputFile_ThenDecrypt_AndPrintCipherBytes_ToScreen()
         throws IOException
     {
-        String fileName = "shorttext.txt";
-        //String fileName = "longtext.txt";
+        String fileName = FILE_NAMES[0];
         
-        byte[] decryptedBytes = getAnd_EncryptAnd_DecryptContent_OfInputFile(fileName);
+        byte[] decryptedBytes = getAnd_EncryptAnd_DecryptContent_OfInputFile(fileName, ECB_CONFIG);
         
         System.out.println(new String(decryptedBytes));
     }
@@ -78,9 +70,7 @@ public class DesSolution
     // print the length of the encrypted bytes for each of the input files
     public static void question6_EncryptContent_OfInputFiles_AndPrint_LengthsOfCipherBytes_ToScreen()
     {
-        String[] fileNames = {"shorttext.txt", "longtext.txt"};
-        
-        for (String fileName : fileNames) {
+        for (String fileName : FILE_NAMES) {
             String content = getContent_OfInputFile(fileName);
             
             System.out.println(fileName + " content size: " + content.length());
@@ -89,13 +79,13 @@ public class DesSolution
             
             System.out.println(fileName + " input length: " + inputBytes.length);
             
-            byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName);
+            byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName, ECB_CONFIG);
         
             System.out.println(fileName + " cipher length: " + cipherBytes.length);
         }
     }
     
-    // get the content of the input file as String
+    // get the content of the input file
     public static String getContent_OfInputFile(String fileName)
     {
         String filePath = RESOURCES_LOCATION + "/" + fileName;
@@ -115,7 +105,7 @@ public class DesSolution
     }
     
     // get and encrypt the content of the input file
-    public static byte[] getAnd_EncryptContent_OfInputFile(String fileName)
+    public static byte[] getAnd_EncryptContent_OfInputFile(String fileName, String config)
     {
         String content = getContent_OfInputFile(fileName);
         
@@ -123,11 +113,11 @@ public class DesSolution
             
         SecretKey key = generateKey();
         
-        return encryptBytes(inputBytes, key);
+        return encryptBytes(inputBytes, key, config);
     }
     
     // get, encrypt, and then decrypt the content of the input file
-    public static byte[] getAnd_EncryptAnd_DecryptContent_OfInputFile(String fileName)
+    public static byte[] getAnd_EncryptAnd_DecryptContent_OfInputFile(String fileName, String config)
     {
         String content = getContent_OfInputFile(fileName);
         
@@ -135,107 +125,9 @@ public class DesSolution
             
         SecretKey key = generateKey();
         
-        byte[] cipherBytes = encryptBytes(inputBytes, key);
+        byte[] cipherBytes = encryptBytes(inputBytes, key, config);
         
-        return decryptBytes(cipherBytes, key);
-    }
-    
-    // encrypt bytes using given key
-    public static byte[] encryptBytes(byte[] bytes, SecretKey key)
-    {
-        Cipher cipher = getECBCipher();
-        
-        initializeCipher(cipher, key, Cipher.ENCRYPT_MODE);
-        
-        return doFinal(cipher, bytes);
-    }
-    
-    // decrypt bytes using given key
-    public static byte[] decryptBytes(byte[] bytes, SecretKey key)
-    {
-        Cipher cipher = getECBCipher();
-        
-        initializeCipher(cipher, key, Cipher.DECRYPT_MODE);
-        
-        return doFinal(cipher, bytes);
-    }
-    
-    // generate secret key for DES algorithm
-    public static SecretKey generateKey()
-    {
-        try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(ALGORITHM);
-            
-            return keyGenerator.generateKey();
-        }
-        
-        catch (NoSuchAlgorithmException exception) {
-            throw new IllegalArgumentException("algorithm invalid");
-        }
-    }
-    
-    // create cipher object with ECB configuration
-    public static Cipher getECBCipher()
-    {
-        try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM + "/" + ECB_CONFIG);
-            
-            return cipher;
-        }
-        
-        catch (NoSuchAlgorithmException exception) {
-            throw new IllegalArgumentException("algorithm invalid");
-        }
-        
-        catch (NoSuchPaddingException exception) {
-            throw new IllegalArgumentException("padding invalid");
-        }
-    }
-    
-    // create cipher object with CBC configuration
-    public static Cipher getCBCCipher()
-    {
-        try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM + "/" + CBC_CONFIG);
-            
-            return cipher;
-        }
-        
-        catch (NoSuchAlgorithmException exception) {
-            throw new IllegalArgumentException("algorithm invalid");
-        }
-        
-        catch (NoSuchPaddingException exception) {
-            throw new IllegalArgumentException("padding invalid");
-        }
-    }
-    
-    // initialize the cipher with the given key and chosen encryption mode
-    public static void initializeCipher(Cipher cipher, SecretKey key, int mode)
-    {
-        try {
-            cipher.init(mode, key);
-        }
-        
-        catch (InvalidKeyException exception) {
-            throw new IllegalArgumentException("key invalid");
-        }
-    }
-    
-    // do the actual encryption
-    public static byte[] doFinal(Cipher cipher, byte[] bytes)
-    {
-        try {
-            return cipher.doFinal(bytes);
-        }
-        
-        catch (IllegalBlockSizeException exception) {
-            throw new IllegalArgumentException("block size invalid");
-        }
-        
-        catch (BadPaddingException exception) {
-            throw new IllegalArgumentException("padding invalid");
-        }
+        return decryptBytes(cipherBytes, key, config);
     }
     
     // convert the encrypted byte[] format into a Base64-format String
