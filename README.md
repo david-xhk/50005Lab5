@@ -2,7 +2,11 @@
 
 *Encryption Lab: **Symmetric Key Encryption and Message Digest***
 
-## Part 1
+## Part 1: *Symmetric Key Encryption for a Text File*
+
+*Complete the file `DesSolution.java` so that it can encrypt an input text file using **DES**.*
+
+*Use your program to encrypt the provided files (`shorttext.txt` and `longtext.txt`) and answer the following questions.*
 
 ### Question 1
 
@@ -262,9 +266,12 @@ public static void main(String[] args)
 [q6-shorttext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question6_NumberOfBytes_AndEncryptedBytes_shorttext.txt
 [q6-longtext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question6_NumberOfBytes_AndEncryptedBytes_longtext.txt
 
----
 
-## Part 2
+## Part 2: *Symmetric Key Encryption for an Image File*
+
+*Complete the file `​DesImageSolution.java` ​to encrypt the input file, a `.bmp` image file using **DES** in **ECB** mode.*
+
+*You will need to specify the parameter ​`"DES/ECB/PKCS5Padding"` for creating your instance of the `Cipher` object.*
 
 ### Question 1
 
@@ -305,6 +312,20 @@ public static void main(String[] args)
 *What is the reason for such observation? Can you explain and try on what would be the result if data were taken from bottom to top along the columns of the image?*
 
 *Can you try your new approach on​ comment on observation?*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
