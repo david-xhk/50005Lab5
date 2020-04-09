@@ -6,7 +6,12 @@
 
 ### Question 1
 
-*Try to print to your screen the content of the input files, i.e., the plaintexts, using ​`System.out.println()`.​*  
+*Try to print to your screen the content of the input files, i.e., the plaintexts, using*
+
+```java
+System.out.println(inputText);
+```
+
 *What do you see? Are the files printable?*
 
 > **[Output][q1-shorttext] for `shorttext.txt`**  
@@ -54,8 +59,14 @@ public static void main(String[] args)
 
 ### Question 2
 
-*Store the output ciphertext (in ​`byte[]`​ format) to a variable, say `cipherBytes`​.*  
-*Try to print the ciphertext of the smaller file using​ `System.out.println(new String(cipherBytes))`​.*  
+*Store the output ciphertext (in ​`byte[]`​ format) to a variable, say `cipherBytes`​.*
+
+*Try to print the ciphertext of the smaller file using​*
+
+```java
+System.out.println(new String(cipherBytes));
+```
+
 *What do you see? Is it printable?*
 
 > **[Output][q2-shorttext] for `shorttext.txt`**  
@@ -103,7 +114,8 @@ public static void main(String[] args)
 
 ### Question 3
 
-*Now convert the ciphertext in Question 2 into ​Base64​ format and print it to the screen.*  
+*Now convert the ciphertext in Question 2 into ​Base64​ format and print it to the screen.*
+
 *Is the ​Base64​ encoded data generally printable?*
 
 > **[Output][q3-shorttext] for `shorttext.txt`**  
@@ -196,7 +208,8 @@ public static void main(String[] args)
 
 ### Question 6
 
-*Compare the lengths of the encryption result (in `​byte[]` ​format) for `shorttext.txt` and `longtext.txt`.*  
+*Compare the lengths of the encryption result (in `​byte[]` ​format) for `shorttext.txt` and `longtext.txt`.*
+
 *Does a larger file give a larger encrypted byte array? Why?*
 
 > **[Output][q6-shorttext] for `shorttext.txt`**  
@@ -243,7 +256,8 @@ public static void main(String[] args)
 
 ### Question 1
 
-*Compare the original image with the encrypted image. What similarities between them do you observe?*  
+*Compare the original image with the encrypted image. What similarities between them do you observe?*
+
 *Can you identify the original image from the encrypted one?*
 
 - The edges that are present in the original image are also visible in the encrypted image.
@@ -259,8 +273,10 @@ public static void main(String[] args)
 
 ### Question 3
 
-*Now try to encrypt the image using the CBC mode instead (i.e., by specifying `"​DES/CBC/PKCS5Padding​"`).*  
-*Compare the result with that obtained using ECB mode. What differences do you observe?*  
+*Now try to encrypt the image using the CBC mode instead (i.e., by specifying `"​DES/CBC/PKCS5Padding​"`).*
+
+*Compare the result with that obtained using ECB mode. What differences do you observe?*
+
 *Explain the differences based on what you find out about how CBC mode works.*
 
 - The encrypted image that is generated is very different from the original image.
@@ -272,9 +288,17 @@ public static void main(String[] args)
 
 ### Question 4
 
-*Do you observe any issue with image obtained from CBC mode encryption of `“​SUTD.bmp​”`?*  
-*What is the reason for such observation? Can you explain and try on what would be the result if data were taken from bottom to top along the columns of the image?*  
+*Do you observe any issue with image obtained from CBC mode encryption of `“​SUTD.bmp​”`?*
+
+*What is the reason for such observation? Can you explain and try on what would be the result if data were taken from bottom to top along the columns of the image?*
+
 *Can you try your new approach on​ comment on observation?*
+
+
+
+
+
+
 
 
 
