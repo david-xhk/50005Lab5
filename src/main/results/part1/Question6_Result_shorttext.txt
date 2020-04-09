@@ -1,3 +1,0 @@
-shorttext.txt text length: 1474
-shorttext.txt number of bytes: 1474
-shorttext.txt number of encrypted bytes: 1480

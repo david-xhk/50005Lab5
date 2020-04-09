@@ -22,7 +22,7 @@ public class DesSolution extends AbstractCryptoSolution
         //question1_PrintText_FromInputFiles();
         //question2_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToString();
         //question3_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToBase64Format();
-        //question5_EncryptText_FromInputFiles_ThenDecrypt_EncryptedBytes();
+        //question5_EncryptText_FromInputFiles_ThenDecrypt_AndConvert_DecryptedBytes_ToString();
         //question6_EncryptText_FromInputFiles_ThenGetLengthsOf_EncryptedBytes();
     }
     
@@ -35,7 +35,7 @@ public class DesSolution extends AbstractCryptoSolution
             
             String text = getText_FromInputFile(RESOURCES, fileName);
             
-            writer.write("Original content: " + "\n\n");
+            writer.write("Original text: " + "\n\n");
             
             writer.write(text + "\n");
             
@@ -78,7 +78,7 @@ public class DesSolution extends AbstractCryptoSolution
                 RESOURCES, fileName,
                 DES, ECB_CONFIG);
             
-            writer.write("Encrypted text in Base64-format: " + "\n\n");
+            writer.write("Encrypted bytes in Base64-format: " + "\n\n");
             
             writer.write(bytesToBase64String(encryptedBytes) + "\n");
             
@@ -90,7 +90,7 @@ public class DesSolution extends AbstractCryptoSolution
     }
     
     // print the decrypted bytes of the input file and compare it with original text
-    public static void question5_EncryptText_FromInputFiles_ThenDecrypt_EncryptedBytes()
+    public static void question5_EncryptText_FromInputFiles_ThenDecrypt_AndConvert_DecryptedBytes_ToString()
         throws IOException
     {
         for (String fileName : FILE_NAMES) {
@@ -100,7 +100,7 @@ public class DesSolution extends AbstractCryptoSolution
                 RESOURCES, fileName,
                 DES, ECB_CONFIG);
             
-            writer.write("Decrypted text: " + "\n\n");
+            writer.write("Decrypted bytes as String: " + "\n\n");
             
             writer.write(new String(decryptedBytes) + "\n");
             
