@@ -1,138 +1,211 @@
 package cse.lab5;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import javax.crypto.*;
 import java.util.Base64;
 
 
-public class DesSolution extends AbstractDesSolution
+public class DesSolution extends AbstractCryptoSolution
 {
+    public static final String RESOURCES = "src/main/resources";
+    public static final String RESULTS = "src/main/results/part1";
     public static final String[] FILE_NAMES = {"shorttext.txt", "longtext.txt"};
-    public static final String RESOURCES_LOCATION = "src/main/resources";
     
     public static void main(String[] args)
         throws IOException
     {
-        question1_PrintContent_OfInputFile_ToScreen();
-        //question2_EncryptContent_OfInputFile_AndPrintCipherBytes_ToScreen();
-        //question3_EncryptContent_OfInputFile_ThenBase64Encode_AndPrintCipherBytes_ToScreen();
-        //question5_EncryptContent_OfInputFile_ThenDecrypt_AndPrintCipherBytes_ToScreen();
-        //question6_EncryptContent_OfInputFiles_AndPrint_LengthsOfCipherBytes_ToScreen();
+        //question1_PrintText_FromInputFiles();
+        //question2_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToString();
+        //question3_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToBase64Format();
+        //question5_EncryptText_FromInputFiles_ThenDecrypt_EncryptedBytes();
+        //question6_EncryptText_FromInputFiles_ThenGetLengthsOf_EncryptedBytes();
     }
     
     // print the content of the input file
-    public static void question1_PrintContent_OfInputFile_ToScreen()
+    public static void question1_PrintText_FromInputFiles()
         throws IOException
     {
-        String fileName = FILE_NAMES[0];
-        
-        String content = (String) getContent_OfInputFile(fileName);
-        
-        System.out.println("Original content: ");
-        System.out.println(content);
+        for (String fileName : FILE_NAMES) {
+            StringWriter writer = new StringWriter();
+            
+            String text = getText_FromInputFile(RESOURCES, fileName);
+            
+            writer.write("Original content: " + "\n\n");
+            
+            writer.write(text + "\n");
+            
+            String result = writer.toString();
+            
+            printTextToScreen_AndWriteToOutputFile(result, RESULTS, "Question1_Result_" + fileName);
+        }
     }
     
     // print the encrypted bytes of the input file as String
-    public static void question2_EncryptContent_OfInputFile_AndPrintCipherBytes_ToScreen()
+    public static void question2_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToString()
         throws IOException
     {
-        String fileName = FILE_NAMES[0];
-        
-        byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName, ECB_CONFIG);
-        
-        System.out.println(new String(cipherBytes));
+        for (String fileName : FILE_NAMES) {
+            StringWriter writer = new StringWriter();
+            
+            byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
+                RESOURCES, fileName,
+                DES, ECB_CONFIG);
+            
+            writer.write("Encrypted bytes as String: " + "\n\n");
+            
+            writer.write(new String(encryptedBytes) + "\n");
+            
+            String result = writer.toString();
+            
+            printTextToScreen_AndWriteToOutputFile(result,
+                RESULTS, "Question2_Result_" + fileName);
+        }
     }
     
     // print the encrypted bytes of the input file as Base64-format String
-    public static void question3_EncryptContent_OfInputFile_ThenBase64Encode_AndPrintCipherBytes_ToScreen()
+    public static void question3_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToBase64Format()
         throws IOException
     {
-        String fileName = FILE_NAMES[0];
-        
-        byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName, ECB_CONFIG);
-        
-        System.out.println(bytesToBase64String(cipherBytes));
+        for (String fileName : FILE_NAMES) {
+            StringWriter writer = new StringWriter();
+            
+            byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
+                RESOURCES, fileName,
+                DES, ECB_CONFIG);
+            
+            writer.write("Encrypted text in Base64-format: " + "\n\n");
+            
+            writer.write(bytesToBase64String(encryptedBytes) + "\n");
+            
+            String result = writer.toString();
+            
+            printTextToScreen_AndWriteToOutputFile(result,
+                RESULTS, "Question3_Result_" + fileName);
+        }
     }
     
     // print the decrypted bytes of the input file and compare it with original text
-    public static void question5_EncryptContent_OfInputFile_ThenDecrypt_AndPrintCipherBytes_ToScreen()
+    public static void question5_EncryptText_FromInputFiles_ThenDecrypt_EncryptedBytes()
         throws IOException
     {
-        String fileName = FILE_NAMES[0];
-        
-        byte[] decryptedBytes = getAnd_EncryptAnd_DecryptContent_OfInputFile(fileName, ECB_CONFIG);
-        
-        System.out.println(new String(decryptedBytes));
+        for (String fileName : FILE_NAMES) {
+            StringWriter writer = new StringWriter();
+            
+            byte[] decryptedBytes = getText_FromInputFile_AndEncrypt_ThenDecrypt(
+                RESOURCES, fileName,
+                DES, ECB_CONFIG);
+            
+            writer.write("Decrypted text: " + "\n\n");
+            
+            writer.write(new String(decryptedBytes) + "\n");
+            
+            String result = writer.toString();
+            
+            printTextToScreen_AndWriteToOutputFile(result,
+                RESULTS, "Question5_Result_" + fileName);
+        }
     }
     
     // print the length of the encrypted bytes for each of the input files
-    public static void question6_EncryptContent_OfInputFiles_AndPrint_LengthsOfCipherBytes_ToScreen()
+    public static void question6_EncryptText_FromInputFiles_ThenGetLengthsOf_EncryptedBytes()
     {
         for (String fileName : FILE_NAMES) {
-            String content = getContent_OfInputFile(fileName);
+            StringWriter writer = new StringWriter();
             
-            System.out.println(fileName + " content size: " + content.length());
+            String text = getText_FromInputFile(RESOURCES, fileName);
             
-            byte[] inputBytes = content.getBytes();
+            writer.write(fileName + " text length: " + text.length() + "\n");
             
-            System.out.println(fileName + " input length: " + inputBytes.length);
+            byte[] textBytes = text.getBytes();
             
-            byte[] cipherBytes = getAnd_EncryptContent_OfInputFile(fileName, ECB_CONFIG);
-        
-            System.out.println(fileName + " cipher length: " + cipherBytes.length);
-        }
-    }
-    
-    // get the content of the input file
-    public static String getContent_OfInputFile(String fileName)
-    {
-        String filePath = RESOURCES_LOCATION + "/" + fileName;
-        StringBuilder data = new StringBuilder();
-        
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            writer.write(fileName + " number of bytes: " + textBytes.length + "\n");
             
-            while (bufferedReader.ready())
-                data.append(bufferedReader.readLine() + "\n");
+            byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
+                RESOURCES, fileName,
+                DES, ECB_CONFIG);
             
-            return data.toString();
-        }
-        
-        catch (IOException exception) {
-            throw new IllegalStateException("I/O exception occured");
+            writer.write(fileName + " number of encrypted bytes: " + encryptedBytes.length + "\n");
+            
+            String result = writer.toString();
+            
+            printTextToScreen_AndWriteToOutputFile(result,
+                RESULTS, "Question6_Result_" + fileName);
         }
     }
     
     // get and encrypt the content of the input file
-    public static byte[] getAnd_EncryptContent_OfInputFile(String fileName, String config)
+    public static byte[] getText_FromInputFile_AndEncrypt(
+        String fileLocation, String fileName,
+        String algorithm, String config)
     {
-        String content = getContent_OfInputFile(fileName);
+        String text = getText_FromInputFile(fileLocation, fileName);
         
-        byte[] inputBytes = content.getBytes();
+        byte[] textBytes = text.getBytes();
             
-        SecretKey key = generateKey();
+        SecretKey key = generateKey(algorithm);
         
-        return encryptBytes(inputBytes, key, config);
+        return encryptBytes(textBytes, algorithm, config, key);
     }
     
     // get, encrypt, and then decrypt the content of the input file
-    public static byte[] getAnd_EncryptAnd_DecryptContent_OfInputFile(String fileName, String config)
+    public static byte[] getText_FromInputFile_AndEncrypt_ThenDecrypt(
+        String fileLocation, String fileName,
+        String algorithm, String config)
     {
-        String content = getContent_OfInputFile(fileName);
+        String text = getText_FromInputFile(fileLocation, fileName);
         
-        byte[] inputBytes = content.getBytes();
+        byte[] textBytes = text.getBytes();
             
-        SecretKey key = generateKey();
+        SecretKey key = generateKey(algorithm);
         
-        byte[] cipherBytes = encryptBytes(inputBytes, key, config);
+        byte[] encryptedBytes = encryptBytes(textBytes, algorithm, config, key);
         
-        return decryptBytes(cipherBytes, key, config);
+        return decryptBytes(encryptedBytes, algorithm, config, key);
     }
     
     // convert the encrypted byte[] format into a Base64-format String
     public static String bytesToBase64String(byte[] bytes)
     {
         return Base64.getEncoder().encodeToString(bytes);
+    }
+    
+    public static String getText_FromInputFile(String fileLocation, String fileName)
+    {
+        String filePath = fileLocation + "/" + fileName;
+        
+        StringWriter writer = new StringWriter();
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            
+            while (reader.ready())
+                writer.write(reader.readLine() + "\n");
+            
+            return writer.toString();
+        }
+        
+        catch (IOException exception) {
+            throw new IllegalStateException("I/O exception occured: " + exception.getMessage());
+        }
+    }
+    
+    public static void printTextToScreen_AndWriteToOutputFile(String text,
+        String fileLocation, String fileName)
+    {
+        System.out.println(text);
+        
+        String filePath = fileLocation + "/" + fileName;
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(text);
+        }
+        
+        catch (IOException exception) {
+            throw new IllegalStateException("I/O exception occured: " + exception.getMessage());
+        }
     }
 }

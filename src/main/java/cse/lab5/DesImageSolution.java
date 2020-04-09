@@ -2,65 +2,171 @@ package cse.lab5;
 
 import javax.imageio.ImageIO;
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.awt.image.BufferedImage;
 import javax.crypto.*;
 
 
-public class DesImageSolution extends AbstractDesSolution
+public class DesImageSolution extends AbstractCryptoSolution
 {
+    public static final String RESOURCES = "src/main/resources";
+    public static final String RESULTS = "src/main/results/part2";
     public static final String[] FILE_NAMES = {"SUTD.bmp", "triangle.bmp"};
-    public static final String RESOURCES_LOCATION = "src/main/resources";
     
     public static void main(String[] args)
         throws IOException
     {
-        for (String fileName : FILE_NAMES) {
-            getAnd_EncryptContent_OfInputFile_ThenWriteImage_ToOutputFile(fileName, "ECB_" + fileName, ECB_CONFIG);
+        //question1_EncryptImage_FromInputFiles_UsingDES_WithECB();
+        //question3_EncryptImage_FromInputFiles_UsingDES_WithCBC();
+        //question4_EncryptImage_FromInputFiles_BottomUp_UsingDES_WithCBC();
+    }
+    
+    public static void question1_EncryptImage_FromInputFiles_UsingDES_WithECB()
+    {
+        for (String fileName : FILE_NAMES)
+            getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(
+                RESOURCES, fileName,
+                RESULTS, "Question1_ECB_" + fileName,
+                DES, ECB_CONFIG);
+    }
+    
+    public static void question3_EncryptImage_FromInputFiles_UsingDES_WithCBC()
+    {
+        for (String fileName : FILE_NAMES)
+            getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(
+                RESOURCES, fileName,
+                RESULTS, "Question3_CBC_" + fileName,
+                DES, CBC_CONFIG);
+    }
+    
+    public static void question4_EncryptImage_FromInputFiles_BottomUp_UsingDES_WithCBC()
+    {
+        for (String fileName : FILE_NAMES)
+            getImage_FromInputFile_AndEncrypt_BottomUp_ThenWriteImage_ToOutputFile(
+                RESOURCES, fileName,
+                RESULTS, "Question4_CBC_BottomUp_" + fileName,
+                DES, CBC_CONFIG);
+    }
+    
+    public static void getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(
+        String fileLocation, String fileName, 
+        String outFileLocation, String outFileName,
+        String algorithm, String config)
+    {
+        BufferedImage image = getImage_FromInputFile(fileLocation, fileName);
+        
+        int[][] intArray = imageToIntArray(image);
+        
+        int[][] encryptedIntArray = encryptIntArray(intArray, algorithm, config);
+        
+        BufferedImage encryptedImage = intArrayToImage(encryptedIntArray);
+        
+        writeImage_ToOutputFile(encryptedImage, outFileLocation, outFileName);
+    }
+    
+    public static void getImage_FromInputFile_AndEncrypt_BottomUp_ThenWriteImage_ToOutputFile(
+        String fileLocation, String fileName, 
+        String outFileLocation, String outFileName,
+        String algorithm, String config)
+    {
+        BufferedImage image = getImage_FromInputFile(fileLocation, fileName);
+        
+        int[][] intArray = imageToIntArray(image);
+        
+        int[][] encryptedIntArray = encryptIntArray_BottomUp(intArray, algorithm, config);
+        
+        BufferedImage encryptedImage = intArrayToImage(encryptedIntArray);
+        
+        writeImage_ToOutputFile(encryptedImage, outFileLocation, outFileName);
+    }
+    
+    public static int[][] encryptIntArray(int[][] intArray, String algorithm, String config)
+    {
+        SecretKey key = generateKey(algorithm);
+        
+        int rows = intArray.length;
+        
+        int cols = intArray[0].length;
+        
+        int[][] encryptedIntArray = new int[rows][cols];
+        
+        for (int idx = 0; idx < rows; idx++) {
             
-            getAnd_EncryptContent_OfInputFile_ThenWriteImage_ToOutputFile(fileName, "CBC_" + fileName, CBC_CONFIG);
+            ByteBuffer bytes = ByteBuffer.allocate(4 * cols);
+            
+            for (int idy = 0; idy < cols; idy++)
+                bytes.putInt(4 * idy, intArray[idx][idy]);
+            
+            ByteBuffer encryptedBytes = ByteBuffer.wrap(encryptBytes(bytes.array(), algorithm, config, key));
+            
+            for (int idy = 0; idy < cols; idy++)
+                encryptedIntArray[idx][idy] = encryptedBytes.getInt(4 * idy);
         }
         
+        return encryptedIntArray;
     }
     
-    public static void getAnd_EncryptContent_OfInputFile_ThenWriteImage_ToOutputFile(
-        String fileName, String outFileName, String config)
+    public static int[][] encryptIntArray_BottomUp(int[][] intArray, String algorithm, String config)
     {
-        byte[][] byteArray = getAnd_EncryptContent_OfInputFile(fileName, config);
+        int rows = intArray.length;
         
-        BufferedImage image = byteArrayToImage(byteArray);
+        int cols = intArray[0].length;
         
-        writeImage_ToOutputFile(image, outFileName);
+        int[][] encryptedIntArray = new int[rows][cols];
+        
+        SecretKey key = generateKey(algorithm);
+        
+        for (int idx = 0; idx < rows; idx++) {
+            
+            ByteBuffer bytes = ByteBuffer.allocate(4 * cols);
+            
+            for (int idy = 0; idy < cols; idy++)
+                bytes.putInt(4 * idy, intArray[idx][cols-1-idy]);
+            
+            ByteBuffer encryptedBytes = ByteBuffer.wrap(encryptBytes(bytes.array(), algorithm, config, key));
+            
+            for (int idy = 0; idy < cols; idy++)
+                encryptedIntArray[idx][idy] = encryptedBytes.getInt(4 * (cols-1-idy));
+        }
+        
+        return encryptedIntArray;
     }
     
-    public static byte[][] getAnd_EncryptContent_OfInputFile(String fileName, String config)
+    public static int[][] imageToIntArray(BufferedImage image)
     {
-        SecretKey key = generateKey();
-        
-        BufferedImage image = getContent_OfInputFile(fileName);
-        
         int image_width = image.getWidth();
-        
         int image_length = image.getHeight();
         
-        byte[][] byteArray = imageToByteArray(image);
-        
-        byte[][] encryptedArray = new byte[image_width][image_length*4];
+        int[][] intArray = new int[image_width][image_length];
         
         for (int idx = 0; idx < image_width; idx++) {
             
-            // encrypt each column or row bytes
-            byte[] encryptedBytes = encryptBytes(byteArray[idx], key, config);
-            
-            for (int idy = 0; idy < image_length*4; idy++)
-                encryptedArray[idx][idy] = encryptedBytes[idy];
+            for(int idy = 0; idy < image_length; idy++)
+                intArray[idx][idy] = image.getRGB(idx, idy);
         }
         
-        return encryptedArray;
+        return intArray;
     }
     
-    public static BufferedImage getContent_OfInputFile(String fileName)
+    public static BufferedImage intArrayToImage(int[][] intArray)
     {
-        String filePath = RESOURCES_LOCATION + "/" + fileName;
+        int image_width = intArray.length;
+        int image_length = intArray[0].length;
+        
+        BufferedImage image = new BufferedImage(image_width, image_length, BufferedImage.TYPE_3BYTE_BGR);
+        
+        for (int idx = 0; idx < image_width; idx++) {
+            
+            for (int idy = 0; idy < image_length; idy++)
+                image.setRGB(idx, idy, intArray[idx][idy]);
+        }
+        
+        return image;
+    }
+    
+    public static BufferedImage getImage_FromInputFile(String fileLocation, String fileName)
+    {
+        String filePath = fileLocation + "/" + fileName;
         
         try {
             return ImageIO.read(new File(filePath));
@@ -71,9 +177,9 @@ public class DesImageSolution extends AbstractDesSolution
         }
     }
     
-    public static void writeImage_ToOutputFile(BufferedImage image, String outFileName)
+    public static void writeImage_ToOutputFile(BufferedImage image, String outFileLocation, String outFileName)
     {
-        String filePath = RESOURCES_LOCATION + "/" + outFileName;
+        String filePath = outFileLocation + "/" + outFileName;
         
         try {
             ImageIO.write(image, "BMP", new File(filePath));
@@ -82,71 +188,5 @@ public class DesImageSolution extends AbstractDesSolution
         catch (IOException exception) {
             throw new IllegalStateException("I/O exception occured");
         }
-    }
-    
-    public static byte[][] imageToByteArray(BufferedImage image)
-    {
-        int image_width = image.getWidth();
-        int image_length = image.getHeight();
-        
-        byte[][] byteArray = new byte[image_width][image_length*4];
-        
-        for (int idx = 0; idx < image_width; idx++) {
-            
-            for(int idy = 0; idy < image_length; idy++) {
-                
-                int rgb = image.getRGB(idx, idy);
-                
-                byte[] bytes = intToBytes(rgb);
-                
-                for (int idz = 0; idz < 4; idz++)
-                    byteArray[idx][(4*idy+idz)] = bytes[idz];
-            }
-        }
-        
-        return byteArray;
-    }
-    
-    public static BufferedImage byteArrayToImage(byte[][] byteArray)
-    {
-        int image_width = byteArray.length;
-        int image_length = byteArray[0].length / 4;
-        
-        BufferedImage image = new BufferedImage(image_width, image_length, BufferedImage.TYPE_3BYTE_BGR);
-        
-        for (int idx = 0; idx < image_width; idx++) {
-            
-            for (int idy = 0; idy < image_length; idy++) {
-                
-                byte[] bytes = new byte[4];
-                
-                for (int idz = 0; idz < 4; idz++)
-                    bytes[idz] = byteArray[idx][4*idy+idz];
-                
-                int rgb = bytesToInt(bytes);
-                
-                image.setRGB(idx, idy, rgb);
-            }
-        }
-        
-        return image;
-    }
-    
-    private static byte[] intToBytes(int value)
-    {
-        return new byte[] {
-            (byte) (value >> 24),
-            (byte) (value >> 16),
-            (byte) (value >> 8),
-            (byte) (value)};
-    }
-    
-    private static int bytesToInt(byte[] bytes)
-    {
-        return (
-            ((bytes[0] & 0xFF) << 24) | 
-            ((bytes[1] & 0xFF) << 16) | 
-            ((bytes[2] & 0xFF) << 8 ) | 
-            ((bytes[3] & 0xFF) << 0 ));
     }
 }

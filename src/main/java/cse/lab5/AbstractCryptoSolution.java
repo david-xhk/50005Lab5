@@ -10,17 +10,24 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 
-public abstract class AbstractDesSolution
+public abstract class AbstractCryptoSolution
 {
-    public static final String ALGORITHM = "DES";
+    public static final String DES = "DES";
+    public static final String AES = "AES";
     public static final String ECB_CONFIG = "ECB/PKCS5Padding";
     public static final String CBC_CONFIG = "CBC/PKCS5Padding";
     
+    private static Cipher currentCipher;
+    private static String currentAlgorithm;
+    private static String currentConfig;
+    private static int currentMode;
+    private static SecretKey currentKey;
+    
     // generate secret key for DES algorithm
-    public static SecretKey generateKey()
+    public static SecretKey generateKey(String algorithm)
     {
         try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(ALGORITHM);
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm);
             
             return keyGenerator.generateKey();
         }
@@ -31,32 +38,38 @@ public abstract class AbstractDesSolution
     }
     
     // encrypt bytes using given key
-    public static byte[] encryptBytes(byte[] bytes, SecretKey key, String config)
+    public static byte[] encryptBytes(byte[] bytes, String algorithm, String config, SecretKey key)
     {
-        Cipher cipher = getCipher(config);
+        if (!algorithm.equals(currentAlgorithm) || !config.equals(currentConfig))
+            createCipher(algorithm, config);
         
-        initializeCipher(cipher, key, Cipher.ENCRYPT_MODE);
+        if (Cipher.ENCRYPT_MODE != currentMode || !key.equals(currentKey))
+            initializeCipher(Cipher.ENCRYPT_MODE, key);
         
-        return doFinal(cipher, bytes);
+        return doFinal(currentCipher, bytes);
     }
     
     // decrypt bytes using given key
-    public static byte[] decryptBytes(byte[] bytes, SecretKey key, String config)
+    public static byte[] decryptBytes(byte[] bytes, String algorithm, String config, SecretKey key)
     {
-        Cipher cipher = getCipher(config);
+        if (!algorithm.equals(currentAlgorithm) || !config.equals(currentConfig))
+            createCipher(algorithm, config);
         
-        initializeCipher(cipher, key, Cipher.DECRYPT_MODE);
+        if (Cipher.DECRYPT_MODE != currentMode || !key.equals(currentKey))
+            initializeCipher(Cipher.DECRYPT_MODE, key);
         
-        return doFinal(cipher, bytes);
+        return doFinal(currentCipher, bytes);
     }
     
-    // create cipher object with chosen configuration
-    public static Cipher getCipher(String config)
+    public static void createCipher(String algorithm, String config)
     {
+        // create cipher object with given and mode
         try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM + "/" + config);
+            currentCipher = Cipher.getInstance(algorithm + "/" + config);
             
-            return cipher;
+            currentAlgorithm = algorithm;
+            
+            currentConfig = config;
         }
         
         catch (NoSuchAlgorithmException exception) {
@@ -68,11 +81,15 @@ public abstract class AbstractDesSolution
         }
     }
     
-    // initialize the cipher with the given key and chosen encryption mode
-    public static void initializeCipher(Cipher cipher, SecretKey key, int mode)
+    public static void initializeCipher(int mode, SecretKey key)
     {
+        // initialize the cipher with the given key and chosen encryption mode
         try {
-            cipher.init(mode, key);
+            currentCipher.init(mode, key);
+            
+            currentMode = mode;
+            
+            currentKey = key;
         }
         
         catch (InvalidKeyException exception) {
