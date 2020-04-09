@@ -61,7 +61,6 @@ public static void main(String[] args)
 [q1-longtext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question1_OriginalText_longtext.txt
 [des-solution]: https://github.com/han-keong/50005Lab5/blob/master/src/main/java/cse/lab5/DesSolution.java
 
----
 
 ### Question 2
 
@@ -118,7 +117,6 @@ public static void main(String[] args)
 [q2-shorttext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question2_EncryptedBytes_AsString_shorttext.txt
 [q2-longtext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question2_EncryptedBytes_AsString_longtext.txt
 
----
 
 ### Question 3
 
@@ -159,7 +157,6 @@ public static void main(String[] args)
 [q3-shorttext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question3_EncryptedBytes_InBase64Format_shorttext.txt
 [q3-longtext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question3_EncryptedBytes_InBase64Format_longtext.txt
 
----
 
 ### Question 4
 
@@ -171,7 +168,6 @@ public static void main(String[] args)
 
 - Thus, it is not a cryptographic operation.
 
----
 
 ### Question 5
 
@@ -218,7 +214,6 @@ public static void main(String[] args)
 [q5-shorttext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question5_DecryptedBytes_AsString_shorttext.txt
 [q5-longtext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question5_DecryptedBytes_AsString_longtext.txt
 
----
 
 ### Question 6
 
@@ -312,6 +307,7 @@ public static void main(String[] args)
 *What is the reason for such observation? Can you explain and try on what would be the result if data were taken from bottom to top along the columns of the image?*
 
 *Can you try your new approach on​ comment on observation?*
+
 
 
 
