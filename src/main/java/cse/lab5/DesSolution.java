@@ -19,7 +19,7 @@ public class DesSolution extends AbstractCryptoSolution
     public static void main(String[] args)
         throws IOException
     {
-        //question1_PrintText_FromInputFiles();
+        //question1_GetText_FromInputFiles();
         //question2_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToString();
         //question3_EncryptText_FromInputFiles_ThenConvert_EncryptedBytes_ToBase64Format();
         //question5_EncryptText_FromInputFiles_ThenDecrypt_AndConvert_DecryptedBytes_ToString();
@@ -27,7 +27,7 @@ public class DesSolution extends AbstractCryptoSolution
     }
     
     // print the content of the input file
-    public static void question1_PrintText_FromInputFiles()
+    public static void question1_GetText_FromInputFiles()
         throws IOException
     {
         for (String fileName : FILE_NAMES) {
@@ -41,7 +41,8 @@ public class DesSolution extends AbstractCryptoSolution
             
             String result = writer.toString();
             
-            printTextToScreen_AndWriteToOutputFile(result, RESULTS, "Question1_Result_" + fileName);
+            printTextToScreen_AndWriteToOutputFile(result,
+                RESULTS, "Question1_OriginalText_" + fileName);
         }
     }
     
@@ -63,7 +64,7 @@ public class DesSolution extends AbstractCryptoSolution
             String result = writer.toString();
             
             printTextToScreen_AndWriteToOutputFile(result,
-                RESULTS, "Question2_Result_" + fileName);
+                RESULTS, "Question2_EncryptedBytes_AsString_" + fileName);
         }
     }
     
@@ -85,7 +86,7 @@ public class DesSolution extends AbstractCryptoSolution
             String result = writer.toString();
             
             printTextToScreen_AndWriteToOutputFile(result,
-                RESULTS, "Question3_Result_" + fileName);
+                RESULTS, "Question3_EncryptedBytes_InBase64Format_" + fileName);
         }
     }
     
@@ -107,7 +108,7 @@ public class DesSolution extends AbstractCryptoSolution
             String result = writer.toString();
             
             printTextToScreen_AndWriteToOutputFile(result,
-                RESULTS, "Question5_Result_" + fileName);
+                RESULTS, "Question5_DecryptedBytes_AsString_" + fileName);
         }
     }
     
@@ -134,7 +135,7 @@ public class DesSolution extends AbstractCryptoSolution
             String result = writer.toString();
             
             printTextToScreen_AndWriteToOutputFile(result,
-                RESULTS, "Question6_Result_" + fileName);
+                RESULTS, "Question6_NumberOfBytes_AndEncryptedBytes_" + fileName);
         }
     }
     
