@@ -27,7 +27,7 @@ public class DesImageSolution extends AbstractCryptoSolution
             getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(
                 RESOURCES, fileName,
                 RESULTS, "Question1_ECB_" + fileName,
-                DES, ECB_CONFIG);
+                DES, ECB_PKCS5_PADDING);
     }
     
     public static void question3_EncryptImage_FromInputFiles_UsingDES_WithCBC()
@@ -36,7 +36,7 @@ public class DesImageSolution extends AbstractCryptoSolution
             getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(
                 RESOURCES, fileName,
                 RESULTS, "Question3_CBC_" + fileName,
-                DES, CBC_CONFIG);
+                DES, CBC_PKCS5_PADDING);
     }
     
     public static void question4_EncryptImage_FromInputFiles_BottomUp_UsingDES_WithCBC()
@@ -45,7 +45,7 @@ public class DesImageSolution extends AbstractCryptoSolution
             getImage_FromInputFile_AndEncrypt_BottomUp_ThenWriteImage_ToOutputFile(
                 RESOURCES, fileName,
                 RESULTS, "Question4_CBC_BottomUp_" + fileName,
-                DES, CBC_CONFIG);
+                DES, CBC_PKCS5_PADDING);
     }
     
     public static void getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(

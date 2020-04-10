@@ -14,8 +14,10 @@ public abstract class AbstractCryptoSolution
 {
     public static final String DES = "DES";
     public static final String AES = "AES";
-    public static final String ECB_CONFIG = "ECB/PKCS5Padding";
-    public static final String CBC_CONFIG = "CBC/PKCS5Padding";
+    public static final String RSA = "RSA";
+    public static final String ECB_PKCS1_PADDING = "ECB/PKCS1Padding";
+    public static final String ECB_PKCS5_PADDING = "ECB/PKCS5Padding";
+    public static final String CBC_PKCS5_PADDING = "CBC/PKCS5Padding";
     
     private static Cipher currentCipher;
     private static String currentAlgorithm;

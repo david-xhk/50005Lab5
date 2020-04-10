@@ -55,7 +55,7 @@ public class DesSolution extends AbstractCryptoSolution
             
             byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
                 RESOURCES, fileName,
-                DES, ECB_CONFIG);
+                DES, ECB_PKCS5_PADDING);
             
             writer.write("Encrypted bytes as String: " + "\n\n");
             
@@ -77,7 +77,7 @@ public class DesSolution extends AbstractCryptoSolution
             
             byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
                 RESOURCES, fileName,
-                DES, ECB_CONFIG);
+                DES, ECB_PKCS5_PADDING);
             
             writer.write("Encrypted bytes in Base64-format: " + "\n\n");
             
@@ -99,7 +99,7 @@ public class DesSolution extends AbstractCryptoSolution
             
             byte[] decryptedBytes = getText_FromInputFile_AndEncrypt_ThenDecrypt(
                 RESOURCES, fileName,
-                DES, ECB_CONFIG);
+                DES, ECB_PKCS5_PADDING);
             
             writer.write("Decrypted bytes as String: " + "\n\n");
             
@@ -128,7 +128,7 @@ public class DesSolution extends AbstractCryptoSolution
             
             byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
                 RESOURCES, fileName,
-                DES, ECB_CONFIG);
+                DES, ECB_PKCS5_PADDING);
             
             writer.write(fileName + " number of encrypted bytes: " + encryptedBytes.length + "\n");
             
