@@ -1,0 +1,7 @@
+number of characters in shorttext.txt: 1474
+number of bytes in shorttext.txt: 1474
+shorttext.txt digest in Base64 format: 7WozengSLo4BLaNn0fiGtw==
+number of bytes in encrypted shorttext.txt digest: 128
+encrypted shorttext.txt digest in Base64 format: RkDZw0HsnLZAxbp20l4oiZ+Ua1wrnUW2D0DjdomTxP9Iuup8OOIdDVIXNemgRQF+UutwHdc2AI2Q1CuneDefo1AgtU9/EpyX/AcAuJiyd/fTA+jw+am6ok8j8M2+2DQPNfppPMfVzBz+op0IROZkpexnomgjHL2Uszbm3IXPM2s=
+number of bytes in decrypted shorttext.txt digest: 16
+decrypted shorttext.txt digest in Base64 format: 7WozengSLo4BLaNn0fiGtw==

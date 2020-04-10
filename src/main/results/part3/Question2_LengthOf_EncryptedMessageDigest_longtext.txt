@@ -1,0 +1,7 @@
+number of characters in longtext.txt: 17353
+number of bytes in longtext.txt: 17353
+longtext.txt digest in Base64 format: DPDOQHBxGdmWan5fs7ADjQ==
+number of bytes in encrypted longtext.txt digest: 128
+encrypted longtext.txt digest in Base64 format: BLJiy3CkdFIWWTeaTMpAkLM/VIWB/t/kxx+noSQKMBqHmVZdou85NfceJ182TzHFBHJpunYByL2KGETaU8mEh7X8OWpkPFYhdzxCNlFlkvetT6cRhvGwL55bk8pyP+XU7yYeBb73jsx4aFC9PHSRAhR6VSwgK0aOX9KddOiXq6s=
+number of bytes in decrypted longtext.txt digest: 16
+decrypted longtext.txt digest in Base64 format: DPDOQHBxGdmWan5fs7ADjQ==

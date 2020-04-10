@@ -1,0 +1,4 @@
+number of characters in longtext.txt: 17353
+number of bytes in longtext.txt: 17353
+number of bytes in longtext.txt digest: 16
+longtext.txt digest in Base64 format: DPDOQHBxGdmWan5fs7ADjQ==

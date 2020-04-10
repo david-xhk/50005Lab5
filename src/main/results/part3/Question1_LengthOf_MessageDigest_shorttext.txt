@@ -1,0 +1,4 @@
+number of characters in shorttext.txt: 1474
+number of bytes in shorttext.txt: 1474
+number of bytes in shorttext.txt digest: 16
+shorttext.txt digest in Base64 format: 7WozengSLo4BLaNn0fiGtw==

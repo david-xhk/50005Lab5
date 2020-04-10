@@ -1,52 +1,117 @@
 package cse.lab5;
 
-import java.util.Base64;
-import javax.crypto.Cipher;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.*;
+import static cse.lab5.Constants.*;
+import static cse.lab5.TextFileUtils.*;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.security.Key;
+import java.security.KeyPair;
 
 
-public class DigitalSignatureSolution {
-
-    public static void main(String[] args) throws Exception {
-//Read the text file and save to String data
-            String fileName = "shorttext.txt";
-            String data = "";
-            String line;
-            BufferedReader bufferedReader = new BufferedReader( new FileReader(fileName));
-            while((line= bufferedReader.readLine())!=null){
-                data = data +"\n" + line;
-            }
-            System.out.println("Original content: "+ data);
-
-//TODO: generate a RSA keypair, initialize as 1024 bits, get public key and private key from this keypair.
-
-
-//TODO: Calculate message digest, using MD5 hash function
-
-
-//TODO: print the length of output digest byte[], compare the length of file shorttext.txt and longtext.txt
-
-           
-//TODO: Create RSA("RSA/ECB/PKCS1Padding") cipher object and initialize is as encrypt mode, use PRIVATE key.
-
-
-//TODO: encrypt digest message
-
-
-//TODO: print the encrypted message (in base64format String using Base64) 
-
-//TODO: Create RSA("RSA/ECB/PKCS1Padding") cipher object and initialize is as decrypt mode, use PUBLIC key.           
-
-//TODO: decrypt message
-
-//TODO: print the decrypted message (in base64format String using Base64), compare with origin digest 
-
-
-
+public class DigitalSignatureSolution extends AbstractSignedCryptoSolution
+{
+    public static void main(String[] args)
+        throws IOException
+    {
+        //question1_DigestText_FromInputFiles_ThenGetLengthsOf_MessageDigests();
+        //question2_DigestText_FromInputFiles_AndEncrypt_ThenGetLengthsOf_MessageDigests();
     }
-
+    
+    // print message digest for each of the input files in Base64 format
+    public static void question1_DigestText_FromInputFiles_ThenGetLengthsOf_MessageDigests()
+        throws IOException
+    {
+        for (String fileName : TEXT_FILE_NAMES) {
+            StringWriter writer = new StringWriter();
+            
+            String text = getText_FromInputFile(RESOURCES, fileName);
+            
+            writer.write("number of characters in " + fileName + ": " + text.length() + "\n");
+            
+            byte[] textBytes = text.getBytes();
+            
+            writer.write("number of bytes in " + fileName + ": " + textBytes.length + "\n");
+            
+            byte[] digestBytes = digestMessage(textBytes, MD5);
+            
+            writer.write("number of bytes in " + fileName + " digest: " + digestBytes.length + "\n");
+            
+            writer.write(fileName + " digest in Base64 format: " + bytesToBase64String(digestBytes) + "\n");
+            
+            String result = writer.toString();
+            
+            printTextToScreen_AndWriteToOutputFile(result,
+                PART3_RESULTS, "Question1_LengthOf_MessageDigest_" + fileName);
+        }
+    }
+    
+    // print message digest for each of the input files in Base64 format after encryption and decryption
+    public static void question2_DigestText_FromInputFiles_AndEncrypt_ThenGetLengthsOf_MessageDigests()
+        throws IOException
+    {
+        for (String fileName : TEXT_FILE_NAMES) {
+            StringWriter writer = new StringWriter();
+            
+            String text = getText_FromInputFile(RESOURCES, fileName);
+            
+            writer.write("number of characters in " + fileName + ": " + text.length() + "\n");
+            
+            byte[] textBytes = text.getBytes();
+            
+            writer.write("number of bytes in " + fileName + ": " + textBytes.length + "\n");
+            
+            byte[] digestBytes = digestMessage(textBytes, MD5);
+            
+            writer.write(fileName + " digest in Base64 format: " + bytesToBase64String(digestBytes) + "\n");
+            
+            byte[] encryptedBytes = encryptMessageDigest(
+                digestBytes,
+                RSA, ECB_PKCS1_PADDING, 1024);
+            
+            writer.write("number of bytes in encrypted " + fileName + " digest: " + encryptedBytes.length + "\n");
+            
+            writer.write("encrypted " + fileName + " digest in Base64 format: " + bytesToBase64String(encryptedBytes) + "\n");
+            
+            byte[] decryptedBytes = encryptMessageDigest_ThenDecrypt(
+                digestBytes,
+                RSA, ECB_PKCS1_PADDING, 1024);
+            
+            writer.write("number of bytes in decrypted " + fileName + " digest: " + decryptedBytes.length + "\n");
+            
+            writer.write("decrypted " + fileName + " digest in Base64 format: " + bytesToBase64String(decryptedBytes) + "\n");
+            
+            String result = writer.toString();
+            
+            printTextToScreen_AndWriteToOutputFile(result,
+                PART3_RESULTS, "Question2_LengthOf_EncryptedMessageDigest_" + fileName);
+        }
+    }
+    
+    // encrypt the message digest
+    public static byte[] encryptMessageDigest(
+        byte[] digestBytes,
+        String cipherAlgorithm, String config, int keySize)
+    {
+        KeyPair keyPair = generateKeyPair(cipherAlgorithm, keySize);
+        
+        Key privateKey = keyPair.getPrivate();
+        
+        return encryptBytes(digestBytes, cipherAlgorithm, config, privateKey);
+    }
+    
+    // encrypt and then decrypt the message digest
+    public static byte[] encryptMessageDigest_ThenDecrypt(
+        byte[] digestBytes,
+        String cipherAlgorithm, String config, int keySize)
+    {
+        KeyPair keyPair = generateKeyPair(cipherAlgorithm, keySize);
+        
+        Key privateKey = keyPair.getPrivate();
+        
+        Key publicKey = keyPair.getPublic();
+        
+        byte[] encryptedBytes = encryptBytes(digestBytes, cipherAlgorithm, config, privateKey);
+        
+        return decryptBytes(encryptedBytes, cipherAlgorithm, config, publicKey);
+    }
 }
