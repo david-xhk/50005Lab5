@@ -14,7 +14,7 @@ public class DigitalSignatureSolution extends AbstractSignedCryptoSolution
         throws IOException
     {
         //question1_DigestText_FromInputFiles_ThenGetLengthsOf_MessageDigests();
-        question2_DigestText_FromInputFiles_AndEncrypt_ThenGetLengthsOf_MessageDigests();
+        //question2_DigestText_FromInputFiles_AndEncrypt_ThenGetLengthsOf_MessageDigests();
     }
     
     // print message digest for each of the input files in Base64 format
