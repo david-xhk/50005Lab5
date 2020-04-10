@@ -19,11 +19,11 @@ public abstract class AbstractCryptoSolution
     public static final String ECB_PKCS5_PADDING = "ECB/PKCS5Padding";
     public static final String CBC_PKCS5_PADDING = "CBC/PKCS5Padding";
     
-    private static Cipher currentCipher;
-    private static String currentAlgorithm;
-    private static String currentConfig;
-    private static int currentMode;
-    private static SecretKey currentKey;
+    private static Cipher currentCipher = null;
+    private static String currentAlgorithm = null;
+    private static String currentConfig = null;
+    private static Integer currentMode = null;
+    private static SecretKey currentKey = null;
     
     // generate secret key for DES algorithm
     public static SecretKey generateKey(String algorithm)
@@ -48,7 +48,18 @@ public abstract class AbstractCryptoSolution
         if (Cipher.ENCRYPT_MODE != currentMode || !key.equals(currentKey))
             initializeCipher(Cipher.ENCRYPT_MODE, key);
         
-        return doFinal(currentCipher, bytes);
+        return doFinal(bytes);
+    }
+    
+    // encrypt bytes (with preconfigured cipher)
+    public static byte[] encryptBytes(byte[] bytes)
+    {
+        ensureCipherInitialised();
+        
+        if (currentMode == Cipher.ENCRYPT_MODE)
+            throw new IllegalStateException("cipher in encrypt mode");
+        
+        return doFinal(bytes);
     }
     
     // decrypt bytes using given key
@@ -60,7 +71,18 @@ public abstract class AbstractCryptoSolution
         if (Cipher.DECRYPT_MODE != currentMode || !key.equals(currentKey))
             initializeCipher(Cipher.DECRYPT_MODE, key);
         
-        return doFinal(currentCipher, bytes);
+        return doFinal(bytes);
+    }
+    
+    // encrypt bytes (with preconfigured cipher)
+    public static byte[] decryptBytes(byte[] bytes)
+    {
+        ensureCipherInitialised();
+        
+        if (currentMode == Cipher.DECRYPT_MODE)
+            throw new IllegalStateException("cipher in decrypt mode");
+        
+        return doFinal(bytes);
     }
     
     public static void createCipher(String algorithm, String config)
@@ -100,10 +122,10 @@ public abstract class AbstractCryptoSolution
     }
     
     // do the actual encryption
-    public static byte[] doFinal(Cipher cipher, byte[] bytes)
+    private static byte[] doFinal(byte[] bytes)
     {
         try {
-            return cipher.doFinal(bytes);
+            return currentCipher.doFinal(bytes);
         }
         
         catch (IllegalBlockSizeException exception) {
@@ -113,5 +135,23 @@ public abstract class AbstractCryptoSolution
         catch (BadPaddingException exception) {
             throw new IllegalArgumentException("padding invalid");
         }
+    }
+    
+    private static void ensureCipherInitialised()
+    {
+        if (currentAlgorithm == null)
+            throw new IllegalStateException("algorithm missing");
+        
+        if (currentConfig == null)
+            throw new IllegalStateException("config missing");
+        
+        if (currentCipher == null)
+            throw new IllegalStateException("cipher missing");
+        
+        if (currentMode == null)
+            throw new IllegalStateException("mode missing");
+        
+        if (currentKey == null)
+            throw new IllegalStateException("key missing");
     }
 }
