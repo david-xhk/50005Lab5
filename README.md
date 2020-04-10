@@ -1,8 +1,8 @@
 # 50.005 Lab 5: Encryption Lab
 
 ## Table of Contents
-- [Overview](#overview)
-- [x] [Part 1: *Symmetric Key Encryption for a Text File*](#part-1---symmetric-key-encryption-for-a-text-file-)
+- [**Overview**](#overview)
+- [x] [**Part 1: *Symmetric Key Encryption for a Text File***](#part-1-symmetric-key-encryption-for-a-text-file)
   - [x] [Question 1](#question-1)
     - [x] [Answer](#answer)
     - [x] [Outputs](#outputs)
@@ -20,7 +20,7 @@
   - [x] [Question 6](#question-6)
     - [x] [Answer](#answer-5)
     - [x] [Outputs](#outputs-4)
-- [x] [Part 2: *Symmetric Key Encryption for an Image File*](#part-2---symmetric-key-encryption-for-an-image-file-)
+- [x] [**Part 2: *Symmetric Key Encryption for an Image File***](#part-2-symmetric-key-encryption-for-an-image-file)
   - [x] [Question 1](#question-1-1)
     - [x] [Answer](#answer-6)
     - [x] [Outputs](#outputs-5)
@@ -32,7 +32,7 @@
   - [x] [Question 4](#question-4-1)
     - [x] [Answer](#answer-9)
     - [x] [Outputs](#outputs-7)
-- [ ] [Part 3: *Signed Message Digests*](#part-3---signed-message-digests-)
+- [ ] [**Part 3: *Signed Message Digests***](#part-3-signed-message-digests)
   - [ ] [Question 1](#question-1-2)
     - [ ] [Answer](#answer-10)
   - [ ] [Question 2](#question-2-2)
@@ -566,6 +566,9 @@ public static void main(String[] args)
 *Does a larger file size give a longer signed message digest? Why or why not?*
 
 #### Answer
+
+
+
 
 
 
