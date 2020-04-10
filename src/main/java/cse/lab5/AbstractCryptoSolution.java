@@ -1,32 +1,25 @@
 package cse.lab5;
 
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
 
 
 public abstract class AbstractCryptoSolution
 {
-    public static final String DES = "DES";
-    public static final String AES = "AES";
-    public static final String RSA = "RSA";
-    public static final String ECB_PKCS1_PADDING = "ECB/PKCS1Padding";
-    public static final String ECB_PKCS5_PADDING = "ECB/PKCS5Padding";
-    public static final String CBC_PKCS5_PADDING = "CBC/PKCS5Padding";
-    
     private static Cipher currentCipher = null;
     private static String currentAlgorithm = null;
     private static String currentConfig = null;
-    private static Integer currentMode = null;
-    private static SecretKey currentKey = null;
+    private static Integer currentMode = -1;
+    private static Key currentKey = null;
     
     // generate secret key for DES algorithm
-    public static SecretKey generateKey(String algorithm)
+    public static Key generateKey(String algorithm)
     {
         try {
             KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm);
@@ -40,12 +33,12 @@ public abstract class AbstractCryptoSolution
     }
     
     // encrypt bytes using given key
-    public static byte[] encryptBytes(byte[] bytes, String algorithm, String config, SecretKey key)
+    public static byte[] encryptBytes(byte[] bytes, String algorithm, String config, Key key)
     {
         if (!algorithm.equals(currentAlgorithm) || !config.equals(currentConfig))
             createCipher(algorithm, config);
         
-        if (Cipher.ENCRYPT_MODE != currentMode || !key.equals(currentKey))
+        if (currentMode.equals(Cipher.ENCRYPT_MODE) || !key.equals(currentKey))
             initializeCipher(Cipher.ENCRYPT_MODE, key);
         
         return doFinal(bytes);
@@ -63,7 +56,7 @@ public abstract class AbstractCryptoSolution
     }
     
     // decrypt bytes using given key
-    public static byte[] decryptBytes(byte[] bytes, String algorithm, String config, SecretKey key)
+    public static byte[] decryptBytes(byte[] bytes, String algorithm, String config, Key key)
     {
         if (!algorithm.equals(currentAlgorithm) || !config.equals(currentConfig))
             createCipher(algorithm, config);
@@ -105,7 +98,7 @@ public abstract class AbstractCryptoSolution
         }
     }
     
-    public static void initializeCipher(int mode, SecretKey key)
+    public static void initializeCipher(int mode, Key key)
     {
         // initialize the cipher with the given key and chosen encryption mode
         try {
@@ -148,7 +141,7 @@ public abstract class AbstractCryptoSolution
         if (currentCipher == null)
             throw new IllegalStateException("cipher missing");
         
-        if (currentMode == null)
+        if (currentMode.equals(-1))
             throw new IllegalStateException("mode missing");
         
         if (currentKey == null)

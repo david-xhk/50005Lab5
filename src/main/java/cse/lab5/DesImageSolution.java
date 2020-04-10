@@ -1,18 +1,16 @@
 package cse.lab5;
 
-import javax.imageio.ImageIO;
-import java.io.*;
+import static cse.lab5.ImageFileUtils.*;
+import static cse.lab5.Constants.*;
 import java.nio.ByteBuffer;
+import java.security.Key;
+import javax.crypto.Cipher;
 import java.awt.image.BufferedImage;
-import javax.crypto.*;
+import java.io.IOException;
 
 
 public class DesImageSolution extends AbstractCryptoSolution
 {
-    public static final String RESOURCES = "src/main/resources";
-    public static final String RESULTS = "src/main/results/part2";
-    public static final String[] FILE_NAMES = {"SUTD.bmp", "triangle.bmp"};
-    
     public static void main(String[] args)
         throws IOException
     {
@@ -23,28 +21,28 @@ public class DesImageSolution extends AbstractCryptoSolution
     
     public static void question1_EncryptImage_FromInputFiles_UsingDES_WithECB()
     {
-        for (String fileName : FILE_NAMES)
+        for (String fileName : IMAGE_FILE_NAMES)
             getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(
                 RESOURCES, fileName,
-                RESULTS, "Question1_ECB_" + fileName,
+                PART2_RESULTS, "Question1_ECB_" + fileName,
                 DES, ECB_PKCS5_PADDING);
     }
     
     public static void question3_EncryptImage_FromInputFiles_UsingDES_WithCBC()
     {
-        for (String fileName : FILE_NAMES)
+        for (String fileName : IMAGE_FILE_NAMES)
             getImage_FromInputFile_AndEncrypt_ThenWriteImage_ToOutputFile(
                 RESOURCES, fileName,
-                RESULTS, "Question3_CBC_" + fileName,
+                PART2_RESULTS, "Question3_CBC_" + fileName,
                 DES, CBC_PKCS5_PADDING);
     }
     
     public static void question4_EncryptImage_FromInputFiles_BottomUp_UsingDES_WithCBC()
     {
-        for (String fileName : FILE_NAMES)
+        for (String fileName : IMAGE_FILE_NAMES)
             getImage_FromInputFile_AndEncrypt_BottomUp_ThenWriteImage_ToOutputFile(
                 RESOURCES, fileName,
-                RESULTS, "Question4_CBC_BottomUp_" + fileName,
+                PART2_RESULTS, "Question4_CBC_BottomUp_" + fileName,
                 DES, CBC_PKCS5_PADDING);
     }
     
@@ -82,7 +80,7 @@ public class DesImageSolution extends AbstractCryptoSolution
     
     public static int[][] encryptIntArray(int[][] intArray, String algorithm, String config)
     {
-        SecretKey key = generateKey(algorithm);
+        Key key = generateKey(algorithm);
         
         createCipher(algorithm, config);
         
@@ -112,7 +110,7 @@ public class DesImageSolution extends AbstractCryptoSolution
     
     public static int[][] encryptIntArray_BottomUp(int[][] intArray, String algorithm, String config)
     {
-        SecretKey key = generateKey(algorithm);
+        Key key = generateKey(algorithm);
         
         createCipher(algorithm, config);
         
@@ -138,65 +136,5 @@ public class DesImageSolution extends AbstractCryptoSolution
         }
         
         return encryptedIntArray;
-    }
-    
-    public static int[][] imageToIntArray(BufferedImage image)
-    {
-        int image_width = image.getWidth();
-        
-        int image_length = image.getHeight();
-        
-        int[][] intArray = new int[image_width][image_length];
-        
-        for (int idx = 0; idx < image_width; idx++) {
-            
-            for(int idy = 0; idy < image_length; idy++)
-                intArray[idx][idy] = image.getRGB(idx, idy);
-        }
-        
-        return intArray;
-    }
-    
-    public static BufferedImage intArrayToImage(int[][] intArray)
-    {
-        int image_width = intArray.length;
-        
-        int image_length = intArray[0].length;
-        
-        BufferedImage image = new BufferedImage(image_width, image_length, BufferedImage.TYPE_3BYTE_BGR);
-        
-        for (int idx = 0; idx < image_width; idx++) {
-            
-            for (int idy = 0; idy < image_length; idy++)
-                image.setRGB(idx, idy, intArray[idx][idy]);
-        }
-        
-        return image;
-    }
-    
-    public static BufferedImage getImage_FromInputFile(String fileLocation, String fileName)
-    {
-        String filePath = fileLocation + "/" + fileName;
-        
-        try {
-            return ImageIO.read(new File(filePath));
-        }
-        
-        catch (IOException exception) {
-            throw new IllegalStateException("I/O exception occured");
-        }
-    }
-    
-    public static void writeImage_ToOutputFile(BufferedImage image, String outFileLocation, String outFileName)
-    {
-        String filePath = outFileLocation + "/" + outFileName;
-        
-        try {
-            ImageIO.write(image, "BMP", new File(filePath));
-        }
-        
-        catch (IOException exception) {
-            throw new IllegalStateException("I/O exception occured");
-        }
     }
 }
