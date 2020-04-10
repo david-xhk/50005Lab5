@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.security.Key;
 import java.security.KeyPair;
+import javax.crypto.Cipher;
 
 
 public class DigitalSignatureSolution extends AbstractSignedCryptoSolution
@@ -110,6 +111,8 @@ public class DigitalSignatureSolution extends AbstractSignedCryptoSolution
         
         byte[] encryptedBytes = encryptBytes(digestBytes, cipherAlgorithm, config, privateKey);
         
-        return decryptBytes(encryptedBytes, cipherAlgorithm, config, publicKey);
+        initializeCipher(Cipher.DECRYPT_MODE, publicKey);
+        
+        return decryptBytes(encryptedBytes);
     }
 }
