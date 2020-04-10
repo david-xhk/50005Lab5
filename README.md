@@ -308,16 +308,16 @@ public static void main(String[] args)
 
 > **[Output][q6-shorttext] for `shorttext.txt`**  
 > ```
-> shorttext.txt text length: 1474
-> shorttext.txt number of bytes: 1474
-> shorttext.txt number of encrypted bytes: 1480
+> number of characters in shorttext.txt: 1474
+> number of bytes in shorttext.txt: 1474
+> number of bytes in encrypted shorttext.txt: 1480
 > ```
 
 > **[Output][q6-longtext] for `longtext.txt`**  
 > ```
-> longtext.txt text length: 17353
-> longtext.txt number of bytes: 17353
-> longtext.txt number of encrypted bytes: 17360
+> number of characters in longtext.txt: 17353
+> number of bytes in longtext.txt: 17353
+> number of bytes in encrypted longtext.txt: 17360
 > ```
 
 - To see outputs from running code, comment out the following line in [`DesSolution.main`][des-solution].
