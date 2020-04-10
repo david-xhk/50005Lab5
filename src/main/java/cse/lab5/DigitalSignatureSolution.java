@@ -14,7 +14,7 @@ public class DigitalSignatureSolution extends AbstractSignedCryptoSolution
         throws IOException
     {
         //question1_DigestText_FromInputFiles_ThenGetLengthsOf_MessageDigests();
-        //question2_DigestText_FromInputFiles_AndEncrypt_ThenGetLengthsOf_MessageDigests();
+        question2_DigestText_FromInputFiles_AndEncrypt_ThenGetLengthsOf_MessageDigests();
     }
     
     // print message digest for each of the input files in Base64 format
@@ -75,8 +75,6 @@ public class DigitalSignatureSolution extends AbstractSignedCryptoSolution
             byte[] decryptedBytes = encryptMessageDigest_ThenDecrypt(
                 digestBytes,
                 RSA, ECB_PKCS1_PADDING, 1024);
-            
-            writer.write("number of bytes in decrypted " + fileName + " digest: " + decryptedBytes.length + "\n");
             
             writer.write("decrypted " + fileName + " digest in Base64 format: " + bytesToBase64String(decryptedBytes) + "\n");
             
