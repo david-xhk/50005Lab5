@@ -84,6 +84,10 @@ public class DesImageSolution extends AbstractCryptoSolution
     {
         SecretKey key = generateKey(algorithm);
         
+        createCipher(algorithm, config);
+        
+        initializeCipher(Cipher.ENCRYPT_MODE, key);
+        
         int rows = intArray.length;
         
         int cols = intArray[0].length;
@@ -97,7 +101,7 @@ public class DesImageSolution extends AbstractCryptoSolution
             for (int idy = 0; idy < cols; idy++)
                 bytes.putInt(4 * idy, intArray[idx][idy]);
             
-            ByteBuffer encryptedBytes = ByteBuffer.wrap(encryptBytes(bytes.array(), algorithm, config, key));
+            ByteBuffer encryptedBytes = ByteBuffer.wrap(encryptBytes(bytes.array()));
             
             for (int idy = 0; idy < cols; idy++)
                 encryptedIntArray[idx][idy] = encryptedBytes.getInt(4 * idy);
@@ -108,13 +112,17 @@ public class DesImageSolution extends AbstractCryptoSolution
     
     public static int[][] encryptIntArray_BottomUp(int[][] intArray, String algorithm, String config)
     {
+        SecretKey key = generateKey(algorithm);
+        
+        createCipher(algorithm, config);
+        
+        initializeCipher(Cipher.ENCRYPT_MODE, key);
+        
         int rows = intArray.length;
         
         int cols = intArray[0].length;
         
         int[][] encryptedIntArray = new int[rows][cols];
-        
-        SecretKey key = generateKey(algorithm);
         
         for (int idx = 0; idx < rows; idx++) {
             
@@ -123,7 +131,7 @@ public class DesImageSolution extends AbstractCryptoSolution
             for (int idy = 0; idy < cols; idy++)
                 bytes.putInt(4 * idy, intArray[idx][cols-1-idy]);
             
-            ByteBuffer encryptedBytes = ByteBuffer.wrap(encryptBytes(bytes.array(), algorithm, config, key));
+            ByteBuffer encryptedBytes = ByteBuffer.wrap(encryptBytes(bytes.array()));
             
             for (int idy = 0; idy < cols; idy++)
                 encryptedIntArray[idx][idy] = encryptedBytes.getInt(4 * (cols-1-idy));
@@ -135,6 +143,7 @@ public class DesImageSolution extends AbstractCryptoSolution
     public static int[][] imageToIntArray(BufferedImage image)
     {
         int image_width = image.getWidth();
+        
         int image_length = image.getHeight();
         
         int[][] intArray = new int[image_width][image_length];
@@ -151,6 +160,7 @@ public class DesImageSolution extends AbstractCryptoSolution
     public static BufferedImage intArrayToImage(int[][] intArray)
     {
         int image_width = intArray.length;
+        
         int image_length = intArray[0].length;
         
         BufferedImage image = new BufferedImage(image_width, image_length, BufferedImage.TYPE_3BYTE_BGR);
