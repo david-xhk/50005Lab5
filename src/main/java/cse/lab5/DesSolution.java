@@ -5,6 +5,7 @@ import static cse.lab5.TextFileUtils.*;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.security.Key;
+import javax.crypto.Cipher;
 
 
 public class DesSolution extends AbstractCryptoSolution
@@ -119,9 +120,7 @@ public class DesSolution extends AbstractCryptoSolution
             
             writer.write("number of bytes in " + fileName + ": " + textBytes.length + "\n");
             
-            byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
-                RESOURCES, fileName,
-                DES, ECB_PKCS5_PADDING);
+            byte[] encryptedBytes = encryptText(textBytes, DES, ECB_PKCS5_PADDING);
             
             writer.write("number of bytes in encrypted " + fileName + ": " + encryptedBytes.length + "\n");
             
@@ -133,6 +132,14 @@ public class DesSolution extends AbstractCryptoSolution
     }
     
     // get and encrypt the content of the input file
+    public static byte[] encryptText(byte[] textBytes, String algorithm, String config)
+    {
+        Key key = generateKey(algorithm);
+        
+        return encryptBytes(textBytes, algorithm, config, key);
+    }
+    
+    // get and encrypt the content of the input file
     public static byte[] getText_FromInputFile_AndEncrypt(
         String fileLocation, String fileName,
         String algorithm, String config)
@@ -140,10 +147,8 @@ public class DesSolution extends AbstractCryptoSolution
         String text = getText_FromInputFile(fileLocation, fileName);
         
         byte[] textBytes = text.getBytes();
-            
-        Key key = generateKey(algorithm);
         
-        return encryptBytes(textBytes, algorithm, config, key);
+        return encryptText(textBytes, algorithm, config);
     }
     
     // get, encrypt, and then decrypt the content of the input file
@@ -151,14 +156,12 @@ public class DesSolution extends AbstractCryptoSolution
         String fileLocation, String fileName,
         String algorithm, String config)
     {
-        String text = getText_FromInputFile(fileLocation, fileName);
+        byte[] encryptedBytes = getText_FromInputFile_AndEncrypt(
+            fileLocation, fileName,
+            algorithm, config);
         
-        byte[] textBytes = text.getBytes();
-            
-        Key key = generateKey(algorithm);
+        initializeCipher(Cipher.DECRYPT_MODE, currentKey);
         
-        byte[] encryptedBytes = encryptBytes(textBytes, algorithm, config, key);
-        
-        return decryptBytes(encryptedBytes, algorithm, config, key);
+        return decryptBytes(encryptedBytes);
     }
 }
