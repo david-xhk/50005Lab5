@@ -36,8 +36,10 @@
 * [**Part 3: *Signed Message Digests***](#part-3-signed-message-digests)
   + [Question 1](#question-1-2)
     - [ ] [Answer](#answer-10)
+    - [x] [Outputs](#outputs-8)
   + [Question 2](#question-2-2)
     - [ ] [Answer](#answer-11)
+    - [x] [Outputs](#outputs-9)
 
 
 ## Overview
@@ -556,6 +558,40 @@ public static void main(String[] args)
 
 #### Answer
 
+
+#### Outputs
+
+> **[Output][q1-shorttext-1] for `shorttext.txt`**  
+> ```
+> number of characters in shorttext.txt: 1474
+> number of bytes in shorttext.txt: 1474
+> number of bytes in shorttext.txt digest: 16
+> shorttext.txt digest in Base64 format: 7WozengSLo4BLaNn0fiGtw==
+> ```
+
+> **[Output][q1-longtext-1] for `longtext.txt`**  
+> ```
+> number of characters in longtext.txt: 17353
+> number of bytes in longtext.txt: 17353
+> number of bytes in longtext.txt digest: 16
+> longtext.txt digest in Base64 format: DPDOQHBxGdmWan5fs7ADjQ==
+> ```
+
+- To see outputs from running code, comment out the following line in [`DigitalSignatureSolution.main`][digital-signature-solution].
+
+```java
+public static void main(String[] args)
+    throws IOException
+{
+    question1_DigestText_FromInputFiles_ThenGetLengthsOf_MessageDigests(); // Uncomment this line
+    ...
+}
+```
+
+[q1-shorttext-1]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part3/Question1_LengthOf_MessageDigest_shorttext.txt
+[q1-longtext-1]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part3/Question1_LengthOf_MessageDigest_longtext.txt
+
+
 ### Question 2
 
 *Compare the sizes of the signed message digests in the following line of code for `shorttext.txt` and `longtext.txt`.*
@@ -569,21 +605,40 @@ public static void main(String[] args)
 #### Answer
 
 
+#### Outputs
 
+> **[Output][q2-shorttext-1] for `shorttext.txt`**  
+> ```
+> number of characters in shorttext.txt: 1474
+> number of bytes in shorttext.txt: 1474
+> shorttext.txt digest in Base64 format: 7WozengSLo4BLaNn0fiGtw==
+> number of bytes in encrypted shorttext.txt digest: 128
+> encrypted shorttext.txt digest in Base64 format: SbYqBMTtOWKHuXoQC0hgcMir9ad18M7CWx1nFWk+gUq0+8618cYvskK70C5uxLMLew7AUCf8sIHb6eog+Y9hz24Vy9rfCint2JBO1SsdX8T1YhNN7JzkMUoZSdc9eKgQOy4VSBSJOPSce64tJw6+XjnO1+Gd4oXRoN20Y4ikQxU=
+> decrypted shorttext.txt digest in Base64 format: 7WozengSLo4BLaNn0fiGtw==
+> ```
 
+> **[Output][q2-longtext-1] for `longtext.txt`**  
+> ```
+> number of characters in longtext.txt: 17353
+> number of bytes in longtext.txt: 17353
+> longtext.txt digest in Base64 format: DPDOQHBxGdmWan5fs7ADjQ==
+> number of bytes in encrypted longtext.txt digest: 128
+> encrypted longtext.txt digest in Base64 format: Ljm1naQzKcXFKiiLCSkOxkbswslgNyrQo6liTreBde3/s2GhFcLut3w0TvXR92KgMxUf/vyEbc9OhUqMAdsRYL6l/u+HvNy0kSNdsweWMRmv9xhTIrYa4s6bJtD63t3WImOFfUWlsq9ieZOITQk+nbvjjHGw3IY4TRMcc9LF+EM=
+> decrypted longtext.txt digest in Base64 format: DPDOQHBxGdmWan5fs7ADjQ==
+> ```
 
+- To see outputs from running code, comment out the following line in [`DigitalSignatureSolution.main`][digital-signature-solution].
 
+```java
+public static void main(String[] args)
+    throws IOException
+{
+    ...
+    question2_DigestText_FromInputFiles_AndEncrypt_ThenGetLengthsOf_MessageDigests(); // Uncomment this line
+}
+```
 
-
-
-
-
-
-
-
-
-
-
-
+[q2-shorttext-1]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part3/Question2_LengthOf_EncryptedMessageDigest_shorttext.txt
+[q2-longtext-1]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part3/Question2_LengthOf_EncryptedMessageDigest_longtext.txt
 
 
