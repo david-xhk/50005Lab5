@@ -446,7 +446,17 @@ public static void main(String[] args)
 
   - The silhouettes are still visible, but now the 'shadow' is casted from the bottom side towards the top of the image.
   
-  - Since repeated sections are still repeated when read in the opposite direction, the same problem still applies.
+  - Since repeated sections are still repeated when read in the opposite direction, the same problem may still arise.
+  
+  - However, a repeated section of bytes could be masked by the 'shadow' of a previous non-repeating section.
+  
+  	- This can be observed in the [output][q4-sutd-bmp] of `SUTD.bmp` (See below).
+  	
+  	- More RGB noise is generated when the image is encrypted bottom up.
+  	
+  	- This is because the bottom side of the image has many non-repeating sections of bytes across the image that form the phrase "*Established in collaboration with MIT*".
+  	
+  	- Thus, the repeating sections of white pixels at the top of the image now become masked as the ciphertext has been scrambled previously.
 
 #### Outputs
 
@@ -517,6 +527,10 @@ public static void main(String[] args)
 *Does a larger file size give a longer signed message digest? Why or why not?*
 
 #### Answer
+
+
+
+
 
 
 
