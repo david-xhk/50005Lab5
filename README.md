@@ -307,6 +307,7 @@ public static void main(String[] args)
 [sutd-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/resources/SUTD.bmp
 [triangle-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/resources/triangle.bmp
 
+
 ### Question 1
 
 *Compare the original image with the encrypted image. What similarities between them do you observe?*
@@ -482,6 +483,43 @@ public static void main(String[] args)
 [q4-square-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question4_CBC_square.bmp
 [q4-sutd-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question4_CBC_BottomUp_SUTD.bmp
 [q4-triangle-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question4_CBC_BottomUp_triangle.bmp
+
+
+## Part 3: *Signed Message Digests*
+
+*In NS Module 3, we learned how a **signed message digest** could be used to guarantee the **integrity** of a message.*
+
+*Signing the **digest** instead of the message itself gives much better efficiency.*
+
+*In the final task, we will use JCE to create and sign a message digest*
+
+*Complete the file​ [`DigitalSignatureSolution.java`][digital-signature-solution] ​so that it can generate a signed message digest of an input file.*
+
+*Apply your program to the provided text files ([`shorttext.txt`][short-text] and [`longtext.txt`][long-text]) and answer the following questions.*
+
+[digital-signature-solution]: https://github.com/han-keong/50005Lab5/blob/master/src/main/java/cse/lab5/DigitalSignatureSolution.java
+
+
+### Question 1
+
+*What are the sizes of the message digests that you created for the two different files? Are they the same or different?*
+
+#### Answer
+
+### Question 2
+
+*Compare the sizes of the signed message digests in the following line of code for `shorttext.txt` and `longtext.txt`.*
+
+```java
+​byte[] encryptedBytes = eCipher.doFinal(data.getBytes());
+```
+
+*Does a larger file size give a longer signed message digest? Why or why not?*
+
+#### Answer
+
+
+
 
 
 
