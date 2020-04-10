@@ -1,8 +1,15 @@
-# 50.005 Lab 5
+# 50.005 Lab 5: Encryption Lab
 
-*Encryption Lab: **Symmetric Key Encryption and Message Digest***
+## Overview
+
+*In NS Module 3, we examined how the security properties of **confidentiality** and **data integrity** could be protected by using **symmetric key cryptography** and **signed message digests**.*
+
+*In this lab exercise, you will learn how to write a program that makes use of **DES** for data encryption, **MD5** for creating message digests and **RSA** for digital signing.*
+
 
 ## Part 1: *Symmetric Key Encryption for a Text File*
+
+*In this task, we will make use of the `Cipher` and `KeyGenerator` classes from the Java Cryptography Extension (JCE) to encrypt and decrypt data from a text file.*
 
 *Complete the file [`DesSolution.java`][des-solution] so that it can encrypt an input text file using **DES**.*
 
@@ -11,6 +18,7 @@
 [des-solution]: https://github.com/han-keong/50005Lab5/blob/master/src/main/java/cse/lab5/DesSolution.java
 [short-text]: https://github.com/han-keong/50005Lab5/blob/master/src/main/resources/shorttext.txt
 [long-text]: https://github.com/han-keong/50005Lab5/blob/master/src/main/resources/longtext.txt
+
 
 ### Question 1
 
@@ -22,9 +30,13 @@ System.out.println(text);
 
 *What do you see? Are the files printable?*
 
+#### Answer
+
 - The files are indeed printable (in human-readable form).
 
 - `shorttext.txt` is a poem while `longtext.txt` is an e-book.
+
+#### Outputs
 
 > **[Output][q1-shorttext] for `shorttext.txt`**  
 > ```
@@ -64,6 +76,7 @@ public static void main(String[] args)
 [q1-shorttext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question1_OriginalText_shorttext.txt
 [q1-longtext]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part1/Question1_OriginalText_longtext.txt
 
+
 ### Question 2
 
 *Store the output ciphertext (in ​`byte[]`​ format) to a variable, say `cipherBytes`​.*
@@ -76,9 +89,13 @@ System.out.println(new String(cipherBytes));
 
 *What do you see? Is it printable?*
 
+#### Answer
+
 - The ciphertext is not printable.
 
 - Garbage is printed to the screen, with no human-readable information.
+
+#### Outputs
 
 > **[Output][q2-shorttext] for `shorttext.txt`**  
 > ```
@@ -126,9 +143,13 @@ public static void main(String[] args)
 
 *Is the ​Base64​ encoded data generally printable?*
 
+#### Answer
+
 - Yes, Base64 encoded data is generally printable.
 
 - A long string of random characters is printed.
+
+#### Outputs
 
 > **[Output][q3-shorttext] for `shorttext.txt`**  
 > ```
@@ -164,6 +185,8 @@ public static void main(String[] args)
 
 *Is ​Base64​ encoding a cryptographic operation? Why or why not?*
 
+#### Answer
+
 - Base64 is an encoding scheme that converts a stream of bits/bytes into a series of printable characters.
 
 - It can be easily encoded and decoded using a lookup table.
@@ -175,7 +198,11 @@ public static void main(String[] args)
 
 *Print out the decrypted ciphertext for the small file. Is the output the same as the output for Question 1?*
 
+#### Answer
+
 - Yes, the decrypted ciphertext gave the same output as the first question when it was printed.
+
+#### Outputs
 
 > **[Output][q5-shorttext] for `shorttext.txt`**  
 > ```
@@ -223,6 +250,8 @@ public static void main(String[] args)
 
 *Does a larger file give a larger encrypted byte array? Why?*
 
+#### Answer
+
 - `shorttext.txt` and `longtext.txt` have 1474 and 17353 characters respectively.
 
 - After encryption, `shorttext.txt` and `longtext.txt` have 1480 and 17360 bytes respectively.
@@ -234,6 +263,8 @@ public static void main(String[] args)
 - Some extra bytes are added as padding to the last block of plaintext to achieve the fixed size required by DES.
 
 - This is because DES is a block cipher, which requires inputs to be in blocks with fixed sizes.
+
+#### Outputs
 
 > **[Output][q6-shorttext] for `shorttext.txt`**  
 > ```
@@ -266,11 +297,15 @@ public static void main(String[] args)
 
 ## Part 2: *Symmetric Key Encryption for an Image File*
 
+*In this task, we will use **DES** to encrypt an image file and vary the cipher mode used to observe any effects on the encryption.*
+
 *Complete the file [`​DesImageSolution.java`][des-image-solution] ​to encrypt the input file, a `.bmp` image file using **DES** in **ECB** mode.*
 
-*You will need to specify the parameter ​`"DES/ECB/PKCS5Padding"` for creating your instance of the `Cipher` object.*
+*Use your program to encrypt the provided files ([`SUTD.bmp`][sutd-bmp] and [`triangle.bmp`][triangle-bmp]) and answer the following questions.*
 
 [des-image-solution]: https://github.com/han-keong/50005Lab5/blob/master/src/main/java/cse/lab5/DesImageSolution.java
+[sutd-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/resources/SUTD.bmp
+[triangle-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/resources/triangle.bmp
 
 ### Question 1
 
@@ -278,31 +313,105 @@ public static void main(String[] args)
 
 *Can you identify the original image from the encrypted one?*
 
+#### Answer
+
 - The edges that are present in the original image are also visible in the encrypted image.
+
 - Because the edges are distinguishable, it is possible to identify the original image from the encrypted one.
+
+#### Outputs
+
+> **[Original][sutd-bmp] `SUTD.bmp`**  
+> ![Original image for SUTD.bmp][sutd-bmp]
+> 
+> **[Output][q1-sutd-bmp] for `SUTD.bmp`**  
+> ![DES-ECB encrypted image for SUTD.bmp][q1-sutd-bmp]
+
+> **[Original][triangle-bmp] `triangle.bmp`**  
+> ![Original image for triangle.bmp][triangle-bmp]
+> 
+> **[Output][q1-triangle-bmp] for `triangle.bmp`**  
+> ![DES-ECB Encryption of triangle.bmp][q1-triangle-bmp]
+
+- To see outputs from running code, comment out the following line in [`DesImageSolution.main`][des-image-solution].
+
+```java
+public static void main(String[] args)
+    throws IOException
+{
+    question1_EncryptImage_FromInputFiles_UsingDES_WithECB(); // Uncomment this line
+    ...
+}
+```
+
+[q1-sutd-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question1_ECB_SUTD.bmp
+[q1-triangle-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question1_ECB_triangle.bmp
+
 
 ### Question 2
 
 *Why do those similarities exist? Explain the reason based on what you find out about how the ECB mode works.*
 
+#### Answer
+
 - ECB stands for **Electronic Code Book**.
+
 - An ECB works by substituting blocks of plaintext with a corresponding ciphertext value, and vice versa.
+
 - Thus, distinct patterns in the plaintext, such as edges, have a high chance of bleeding into the ciphertext.
+
 
 ### Question 3
 
-*Now try to encrypt the image using the CBC mode instead (i.e., by specifying `"​DES/CBC/PKCS5Padding​"`).*
+*Now try to encrypt the image using **CBC** mode instead (i.e., by specifying `"​DES/CBC/PKCS5Padding​"`).*
 
 *Compare the result with that obtained using ECB mode. What differences do you observe?*
 
 *Explain the differences based on what you find out about how CBC mode works.*
 
+#### Answer
+
 - The encrypted image that is generated is very different from the original image.
+
 - The image is filled with RGB noise without any noticeable pattern.
+
 - CBC stands for **Cipher Block Chaining**.
-- A CBC works by doing an XOR operation on a block of plaintext with the previous ciphertext block before encrypting that block of plaintext. 
-- In order to ensure uniqueness, a unique initialization vector is used.
+
+- A CBC works by doing an **XOR operation** on a block of plaintext with the previous ciphertext block before encrypting that block of plaintext.
+
+- For the XOR operation on the very first block of plaintext, a **unique random initialization vector** is used to ensure that the cipher will be secure.
+
 - Since each block of ciphertext depends on all the previous plaintext blocks, patterns in the plaintext will no longer map directly onto the ciphertext.
+
+#### Outputs
+
+> **[Original][sutd-bmp] `SUTD.bmp`**  
+> ![Original image for SUTD.bmp][sutd-bmp]
+> 
+> **[Output][q3-sutd-bmp] for `SUTD.bmp`**  
+> ![DES-CBC encrypted image for SUTD.bmp][q3-sutd-bmp]
+
+> **[Original][triangle-bmp] `triangle.bmp`**  
+> ![Original image for triangle.bmp][triangle-bmp]
+> 
+> **[Output][q3-triangle-bmp] for `triangle.bmp`**  
+> ![DES-CBC Encryption of triangle.bmp][q3-triangle-bmp]
+
+- To see outputs from running code, comment out the following line in [`DesImageSolution.main`][des-image-solution].
+
+```java
+public static void main(String[] args)
+    throws IOException
+{
+    ...
+    question3_EncryptImage_FromInputFiles_UsingDES_WithCBC(); // Uncomment this line
+    ...
+}
+```
+
+[q3-sutd-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question3_CBC_SUTD.bmp
+[q3-triangle-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question3_CBC_triangle.bmp
+
 
 ### Question 4
 
@@ -312,148 +421,67 @@ public static void main(String[] args)
 
 *Can you try your new approach on​ comment on observation?*
 
+#### Answer
 
+- Yes, there is a silhouette of the original image that is formed by random RGB strips that run across the encrypted image.
 
+- This gives away information about the original image, although the silhouette may be filled with random RGB noise.
 
+  - For example, the [triangle][q3-triangle-bmp] can still visibly be seen in the output for `triangle.bmp`.
 
+- This issue probably stems from how each plaintext block is XOR-ed with the previous ciphertext block.
 
+- When the plaintext has many repeated sections of bytes, the ciphertext generated will become regular.
 
+- A clear example of this is [`square.bmp`][square-bmp] (See below).
 
+  - In this example, no RGB noise can be seen at all. Only the silhoutte of the square and the 'shadow' that it casts can be seen.
 
+  - Since the square is a solid red and the background is a solid green, the entire image only consists of repeated sections of bytes.
+  
+  - Thus, the generated ciphertext is highly regular and no RGB noise is effectively generated.
 
+- This phenomenon can still be observed when the images are encrypted in a bottom-up manner.
 
+  - The silhouettes are still visible, but now the 'shadow' is casted from the bottom side towards the top of the image.
+  
+  - Since repeated sections are still repeated when read in the opposite direction, the same problem still applies.
 
+#### Outputs
 
+> **[Original][square-bmp] `square.bmp`**  
+> ![Original image for square.bmp][square-bmp]
+> 
+> **[Output][q4-square-bmp] for `square.bmp`**  
+> ![DES-CBC encrypted image for square.bmp][q4-square-bmp]
 
+> **[Original][sutd-bmp] `SUTD.bmp`**  
+> ![Original image for SUTD.bmp][sutd-bmp]
+> 
+> **[Output][q4-sutd-bmp] for `SUTD.bmp`**  
+> ![DES-CBC encrypted image for SUTD.bmp][q4-sutd-bmp]
 
+> **[Original][triangle-bmp] `triangle.bmp`**  
+> ![Original image for triangle.bmp][triangle-bmp]
+> 
+> **[Output][q4-triangle-bmp] for `triangle.bmp`**  
+> ![DES-CBC Encryption of triangle.bmp][q4-triangle-bmp]
 
+- To see outputs from running code, comment out the following line in [`DesImageSolution.main`][des-image-solution].
 
+```java
+public static void main(String[] args)
+    throws IOException
+{
+    ...
+    question4_EncryptImage_FromInputFiles_BottomUp_UsingDES_WithCBC(); // Uncomment this line
+}
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+[square-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/resources/square.bmp
+[q4-square-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question4_CBC_square.bmp
+[q4-sutd-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question4_CBC_BottomUp_SUTD.bmp
+[q4-triangle-bmp]: https://raw.githubusercontent.com/han-keong/50005Lab5/master/src/main/results/part2/Question4_CBC_BottomUp_triangle.bmp
 
 
 
