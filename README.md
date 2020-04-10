@@ -35,10 +35,10 @@
     - [x] [Outputs](#outputs-7)
 * [**Part 3: *Signed Message Digests***](#part-3-signed-message-digests)
   + [Question 1](#question-1-2)
-    - [ ] [Answer](#answer-10)
+    - [x] [Answer](#answer-10)
     - [x] [Outputs](#outputs-8)
   + [Question 2](#question-2-2)
-    - [ ] [Answer](#answer-11)
+    - [x] [Answer](#answer-11)
     - [x] [Outputs](#outputs-9)
 
 
@@ -558,6 +558,7 @@ public static void main(String[] args)
 
 #### Answer
 
+- The message digest for `shorttext.txt` and `longtext.txt` are both 16 bytes long.
 
 #### Outputs
 
@@ -604,6 +605,13 @@ public static void main(String[] args)
 
 #### Answer
 
+- The signed message digests for `shorttext.txt` and `longtext.txt` are both 128 bytes long.
+
+- A larger file does not give a longer signed message digest.
+
+- This is because the length of a message digest is independent from the size of the input file.
+
+- Therefore, after a message digest is signed, it will be the same size, regardless of the size of the input file.
 
 #### Outputs
 
@@ -640,5 +648,8 @@ public static void main(String[] args)
 
 [q2-shorttext-1]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part3/Question2_LengthOf_EncryptedMessageDigest_shorttext.txt
 [q2-longtext-1]: https://github.com/han-keong/50005Lab5/blob/master/src/main/results/part3/Question2_LengthOf_EncryptedMessageDigest_longtext.txt
+
+
+
 
 
