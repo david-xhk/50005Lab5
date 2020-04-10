@@ -12,11 +12,11 @@ import javax.crypto.NoSuchPaddingException;
 
 public abstract class AbstractCryptoSolution
 {
-    private static Cipher currentCipher = null;
-    private static String currentAlgorithm = null;
-    private static String currentConfig = null;
-    private static Integer currentMode = -1;
-    private static Key currentKey = null;
+    protected static Cipher currentCipher = null;
+    protected static String currentAlgorithm = null;
+    protected static String currentConfig = null;
+    protected static Integer currentMode = -1;
+    protected static Key currentKey = null;
     
     // generate secret key for DES algorithm
     public static Key generateKey(String algorithm)
