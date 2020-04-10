@@ -56,8 +56,8 @@ public abstract class AbstractCryptoSolution
     {
         ensureCipherInitialised();
         
-        if (currentMode == Cipher.ENCRYPT_MODE)
-            throw new IllegalStateException("cipher in encrypt mode");
+        if (currentMode == Cipher.DECRYPT_MODE)
+            throw new IllegalStateException("cipher in decrypt mode");
         
         return doFinal(bytes);
     }
@@ -79,8 +79,8 @@ public abstract class AbstractCryptoSolution
     {
         ensureCipherInitialised();
         
-        if (currentMode == Cipher.DECRYPT_MODE)
-            throw new IllegalStateException("cipher in decrypt mode");
+        if (currentMode == Cipher.ENCRYPT_MODE)
+            throw new IllegalStateException("cipher in encrypt mode");
         
         return doFinal(bytes);
     }
